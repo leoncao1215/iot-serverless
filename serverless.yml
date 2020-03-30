@@ -1,0 +1,74 @@
+service: iot-service
+
+plugins: 
+  - serverless-dynamodb-local
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    httpPort: 8080
+    lambdaPort: 8082
+  dynamodb:
+    start:
+      port: 8000
+      inMemory: true
+      migrate: true
+      seed: true
+    seed:
+      development:
+        sources:
+          - table: device
+            sources: [./db/db.json]
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: us-east-1
+  stage: dev
+  environment:
+    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+
+functions:
+  hello:
+    handler: srv/handler.hello
+    events:
+      - http:
+          path: hello
+          method: get
+          cors: true
+  world:
+    handler: srv/handler.world
+    events:
+      - http:
+          path: world
+          method: get
+          cors: true
+
+resources:
+  Resources:
+    DeviceDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: serialNumber
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: serialNumber
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: device

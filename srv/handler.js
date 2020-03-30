@@ -32,7 +32,7 @@ module.exports.world = (event, context, callback) => {
           response.body = JSON.stringify({code: 500, message: "ScanItem Error"});
       } else if ("Items" in data) {
           response.statusCode = 200;
-          response.body = JSON.stringify({users: data["Items"]});
+          response.body = JSON.stringify({devices: data["Items"]});
       }
       callback(null, response);
   });

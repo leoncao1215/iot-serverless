@@ -60,6 +60,20 @@ functions:
           path: queryDeviceList
           method: get
           cors: true
+  queryDeviceTypeList:
+    handler: srv/deviceHandler.queryDeviceTypeList
+    events:
+      - http:
+          path: queryDeviceTypeList
+          method: get
+          cors: true
+  queryDeviceListByType:
+    handler: srv/deviceHandler.queryDeviceListByType
+    events:
+      - http:
+          path: queryDeviceListByType
+          method: get
+          cors: true
 
 resources:
   Resources:

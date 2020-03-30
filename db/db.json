@@ -3,7 +3,7 @@
         "clientId": "ID-91B2F06B3F05",
         "serialNumber": "SN-D7F3C8947867",
         "deviceName": "Bedroom light",
-        "type": "light",
+        "type": "Light",
         "disabled": false,
         "down": false
     },
@@ -11,7 +11,7 @@
         "clientId": "ID-91B2F06B3F06",
         "serialNumber": "SN-D7F3C8947868",
         "deviceName": "Bedroom brightness sensor",
-        "type": "sensor",
+        "type": "Sensor",
         "disabled": false,
         "down": false
     },
@@ -19,7 +19,7 @@
         "clientId": "ID-91B2F06B3F07",
         "serialNumber": "SN-D7F3C8947869",
         "deviceName": "Bathroom light",
-        "type": "light",
+        "type": "Light",
         "disabled": false,
         "down": false
     },
@@ -27,7 +27,7 @@
         "clientId": "ID-91B2F06B3F08",
         "serialNumber": "SN-D7F3C8947870",
         "deviceName": "Bathroom brightness sensor",
-        "type": "sensor",
+        "type": "Sensor",
         "disabled": false,
         "down": false
     }

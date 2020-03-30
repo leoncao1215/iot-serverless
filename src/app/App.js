@@ -5,6 +5,11 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import {
+  Container,
+  Image,
+  Menu,
+} from 'semantic-ui-react'
 import Device from './device/Device'
 import './App.scss';
 
@@ -13,20 +18,26 @@ class App extends React.Component {
     return (
       <Router>
         <div className="App">
-          <nav>
-            <ul>
-              <li><Link to="/">Home</Link></li>
-              <li><Link to="/device">Device</Link></li>
-            </ul>
-          </nav>
-          <Switch>
-            <Route path="/device">
-              <Device/>
-            </Route>
-            <Route path="/">
-              <div>Home Page</div>
-            </Route>
-          </Switch>
+          <Menu inverted>
+            <Container>
+              <Menu.Item as='a' header>
+                <Image size='mini' src='logo192.png' style={{ marginRight: '1.5em' }} />
+                IoT-Serverless
+              </Menu.Item>
+              <Menu.Item as='a'><Link to="/">Home</Link></Menu.Item>
+              <Menu.Item as='a'><Link to="/device">Device</Link></Menu.Item>
+            </Container>
+          </Menu>
+          <Container>
+            <Switch>
+              <Route path="/device">
+                <Device/>
+              </Route>
+              <Route path="/">
+                <div>Home Page</div>
+              </Route>
+            </Switch>
+          </Container>
         </div>
       </Router>
     )

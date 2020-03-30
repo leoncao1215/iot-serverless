@@ -1,6 +1,34 @@
 [
     {
-        "serialNumber": "ASDFGHJKL",
-        "deviceID": "1234567890"
+        "clientId": "ID-91B2F06B3F05",
+        "serialNumber": "SN-D7F3C8947867",
+        "deviceName": "Bedroom light",
+        "type": "light",
+        "disabled": false,
+        "down": false
+    },
+    {
+        "clientId": "ID-91B2F06B3F06",
+        "serialNumber": "SN-D7F3C8947868",
+        "deviceName": "Bedroom brightness sensor",
+        "type": "sensor",
+        "disabled": false,
+        "down": false
+    },
+    {
+        "clientId": "ID-91B2F06B3F07",
+        "serialNumber": "SN-D7F3C8947869",
+        "deviceName": "Bathroom light",
+        "type": "light",
+        "disabled": false,
+        "down": false
+    },
+    {
+        "clientId": "ID-91B2F06B3F08",
+        "serialNumber": "SN-D7F3C8947870",
+        "deviceName": "Bathroom brightness sensor",
+        "type": "sensor",
+        "disabled": false,
+        "down": false
     }
 ]

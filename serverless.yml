@@ -18,7 +18,7 @@ custom:
       development:
         sources:
           - table: device
-            sources: [./db/db.json]
+            sources: [./db/device.json]
 
 provider:
   name: aws

@@ -39,10 +39,11 @@ export default class ViewDevice extends React.Component {
           <dt>Down:</dt>
           <dd>{down.toString()}</dd>
         </dl>
-        <Button floated='left' onClick={this.props.onEdit}>Edit</Button>
-        <Button floated='right' negative>Delete</Button>
+        <Button onClick={this.props.onEdit}>Edit</Button>
+        <Button floated='right' onClick={this.handleDelete} negative>Delete</Button>
       </Segment>
     );
   }
 
+  handleDelete = () => this.props.onDelete(this.props.device);
 }

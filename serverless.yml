@@ -81,6 +81,13 @@ functions:
           path: queryDeviceListByType
           method: get
           cors: true
+  deleteDevice:
+    handler: srv/deviceHandler.deleteDevice
+    events:
+      - http:
+          path: deleteDevice
+          method: delete
+          cors: true
 
 resources:
   Resources:

@@ -170,3 +170,27 @@ module.exports.queryDeviceListByType = (event, context, callback) => {
     callback(null, response);
   });
 };
+
+/**
+ * 删除设备
+ *
+ * @param event
+ * @param context
+ * @param callback
+ */
+module.exports.deleteDevice = (event, context, callback) => {
+  const serialNumber = event.queryStringParameters.serialNumber;
+
+  const dynamodb = require('./dynamodb');
+  dynamodb.delete({TableName: 'device', Key: {serialNumber: serialNumber}}, (err, res) => {
+    const response = {statusCode: null, body: null};
+    if (err) {
+      response.statusCode = 500;
+      response.body       = JSON.stringify({code: 500, message: "DeleteItem Error"});
+    } else {
+      response.statusCode = 200;
+      response.body       = JSON.stringify({code: 200, message: "Successfully delete device."});
+    }
+    callback(null, response);
+  });
+};

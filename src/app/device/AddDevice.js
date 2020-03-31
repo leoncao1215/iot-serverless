@@ -52,7 +52,8 @@ export default class AddDevice extends React.Component {
     return (
       <Segment>
         <Header as='h1'>Add Device</Header>
-        <Form onSubmit={this.handleSubmit}>
+        {this.message}
+        <Form>
           <Form.Field required>
             <label>Serial Number</label>
             <Form.Input
@@ -91,9 +92,8 @@ export default class AddDevice extends React.Component {
               checked={this.state.disabled}
               onChange={this.handleChange}/>
           </Form.Field>
-          {this.message}
           <Button.Group>
-            <Form.Button content='Submit' positive>Submit</Form.Button>
+            <Button onClick={this.handleSubmit} positive>Submit</Button>
             <Button.Or/>
             <Button onClick={this.props.onCancel}>Cancel</Button>
           </Button.Group>

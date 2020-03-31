@@ -47,14 +47,10 @@ export function put(url, { ...params }) {
   });
 }
 
-export function remove(url, { ...params }) {
+export function remove(url) {
   return fetch(baseURL + url, {
     method : 'DELETE',
-    mode   : 'cors',
-    headers: new Headers({
-      'Content-Type': 'application/json',
-    }),
-    body   : JSON.stringify(params)
+    mode   : 'cors'
   }).then((res) => {
     return res.json();
   }).then((res) => {

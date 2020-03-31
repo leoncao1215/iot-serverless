@@ -137,15 +137,25 @@ export default class Device extends React.Component {
     switch (this.state.action) {
       case 'add':
         return (
-          <AddDevice onSuccess={this.handleSuccess} onCancel={this.handleCancel}/>
+          <AddDevice
+            onSuccess={this.handleSuccess}
+            onCancel={this.handleCancel}/>
         );
       case 'view':
         return (
-          <ViewDevice device={curDevice} onSuccess={this.handleSuccess} onEdit={() => this.handleEditDevice()}/>
+          <ViewDevice
+            device={curDevice}
+            onSuccess={this.handleSuccess}
+            onEdit={() => this.handleEditDevice()}
+            onDelete={this.handleDelete}/>
         );
       case 'edit':
         return (
-          <EditDevice device={curDevice} onSuccess={this.handleSuccess} onCancel={() => this.handleViewDevice()}/>
+          <EditDevice
+            device={curDevice}
+            onSuccess={this.handleSuccess}
+            onCancel={() => this.handleViewDevice()}
+            onDelete={this.handleDelete}/>
         );
       default:
         return undefined;
@@ -204,5 +214,14 @@ export default class Device extends React.Component {
   handleSuccess = () => {
     this.handleCancel();
     this.handleFilter();
-  }
+    this.fetchTypes();
+  };
+
+  handleDelete = (device) => {
+    const {serialNumber} = device;
+    request.delete(`/deleteDevice?serialNumber=${serialNumber}`)
+      .then(res => {
+        this.handleSuccess();
+      })
+  };
 }

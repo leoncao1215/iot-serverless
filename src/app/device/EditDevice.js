@@ -65,7 +65,7 @@ export default class EditDevice extends React.Component {
       <Segment clearing>
         {this.message}
         <Header as='h1'>Editing Device: {this.state.serialNumber}</Header>
-        <Form onSubmit={this.handleSubmit}>
+        <Form>
           <Form.Field required>
             <label>Device Name</label>
             <Form.Input
@@ -96,11 +96,11 @@ export default class EditDevice extends React.Component {
               onChange={this.handleChange}/>
           </Form.Field>
           <Button.Group floated='left'>
-            <Form.Button content='Submit' positive>Submit</Form.Button>
+            <Button onClick={this.handleSubmit} positive>Submit</Button>
             <Button.Or/>
             <Button onClick={this.props.onCancel}>Cancel</Button>
           </Button.Group>
-          <Button floated='right' negative>Delete</Button>
+          <Button floated='right' onClick={this.handleDelete} negative>Delete</Button>
         </Form>
       </Segment>
     );
@@ -157,4 +157,6 @@ export default class EditDevice extends React.Component {
         });
     }
   }
+
+  handleDelete = () => this.props.onDelete(this.props.device);
 }

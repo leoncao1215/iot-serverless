@@ -210,8 +210,14 @@ module.exports.controlDevice = (event, context, callback) => {
   };
 
   const actionList = ['turnOn', 'turnOff'];
+  let actionIllegal = true;
 
-  if (!(instruction.action in actionList)) {
+  actionList.forEach(action => {
+    if (action === instruction.action) {
+      actionIllegal = false;
+    }
+  });
+  if (actionIllegal) {
     const response      = {statusCode: null, body: null};
     response.statusCode = 400;
     response.body       = JSON.stringify({code: 500, message: "Action not permitted."});

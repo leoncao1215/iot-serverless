@@ -90,6 +90,7 @@ export default class Device extends React.Component {
                 <Table.HeaderCell>Type</Table.HeaderCell>
                 <Table.HeaderCell>Device Name</Table.HeaderCell>
                 <Table.HeaderCell>Status</Table.HeaderCell>
+                <Table.HeaderCell>Control</Table.HeaderCell>
                 <Table.HeaderCell>Actions</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
@@ -101,6 +102,14 @@ export default class Device extends React.Component {
                   <Table.Cell collapsing>{device.type}</Table.Cell>
                   <Table.Cell>{device.deviceName}</Table.Cell>
                   <Table.Cell collapsing>{getDeviceStatus(device)}</Table.Cell>
+                  <Table.Cell collapsing>
+                    <Button
+                      basic positive={device.switcher === 'on'} negative={device.switcher === 'off'}
+                      onClick={() => this.handleControlDevice(device.serialNumber, device.switcher === 'on' ? 'turnOff' : 'turnOn')}
+                    >
+                      Turn {device.switcher === 'on' ? 'off' : 'on'}
+                    </Button>
+                  </Table.Cell>
                   <Table.Cell collapsing>
                     <Button.Group>
                       <Button positive onClick={() => this.handleViewDevice(device)}>View</Button>
@@ -204,6 +213,13 @@ export default class Device extends React.Component {
         action: 'edit',
       })
     }
+  };
+
+  handleControlDevice = (serialNumber, action) => {
+    request.put(`/controlDevice?targetDevice=${serialNumber}&action=${action}`, {})
+      .then(res => {
+        this.handleFilter();
+      })
   };
 
   handleCancel = () => {

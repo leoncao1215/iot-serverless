@@ -28,7 +28,6 @@ module.exports.addDevice = (event, context, callback) => {
   };
 
   dynamodb.put(params, (err, res) => {
-    console.log(JSON.stringify(params));
     if (err) {
       response.statusCode = 500;
       response.body       = JSON.stringify({
@@ -47,6 +46,52 @@ module.exports.addDevice = (event, context, callback) => {
 };
 
 /**
+ * 批量添加设备
+ *
+ * @param event
+ * @param context
+ * @param callback
+ */
+module.exports.batchAddDevice = (event, context, callback) => {
+  const dynamodb  = require('./dynamodb');
+  const devices   = JSON.parse(event.body).devices;
+  const response  = {statusCode: null, body: null};
+  const errorList = [];
+  let cnt = devices.length;
+
+  devices.forEach(device => {
+    const params = {
+      TableName: 'device',
+      Item     : {
+        clientId    : device.clientId,
+        serialNumber: device.serialNumber,
+        deviceName  : device.deviceName,
+        type        : device.type,
+        disabled    : device.disabled || false,
+        down        : device.down || false
+      }
+    };
+
+    dynamodb.put(params, (err, res) => {
+      if (err) {
+        errorList.push(params['Item']);
+      }
+      --cnt;
+      if (cnt <= 0) {
+        if (errorList.length !== 0) {
+          response.statusCode = 500;
+          response.body       = JSON.stringify({code: 500, message: "Fail to add devices: " + JSON.stringify(errorList)});
+        } else {
+          response.statusCode = 200;
+          response.body       = JSON.stringify({devices: devices});
+        }
+        callback(null, response);
+      }
+    })
+  });
+};
+
+/**
  * 查询所有设备
  *
  * @param event
@@ -59,7 +104,6 @@ module.exports.queryDeviceList = (event, context, callback) => {
   dynamodb.scan({TableName: 'device'}, (err, res) => {
     const response = {statusCode: null, body: null};
     if (err) {
-      console.log(err);
       response.statusCode = 500;
       response.body       = JSON.stringify({code: 500, message: "ScanItem Error"});
     } else if ("Items" in res) {
@@ -83,7 +127,6 @@ module.exports.queryDeviceTypeList = (event, context, callback) => {
   dynamodb.scan({TableName: 'device'}, (err, res) => {
     const response = {statusCode: null, body: null};
     if (err) {
-      console.log(err);
       response.statusCode = 500;
       response.body       = JSON.stringify({code: 500, message: "ScanItem Error"});
     } else if ("Items" in res) {
@@ -111,12 +154,13 @@ module.exports.queryDeviceListByType = (event, context, callback) => {
   dynamodb.scan({TableName: 'device'}, (err, res) => {
     const response = {statusCode: null, body: null};
     if (err) {
-      console.log(err);
       response.statusCode = 500;
       response.body       = JSON.stringify({code: 500, message: "ScanItem Error"});
     } else if ("Items" in res) {
       const devices = [];
-      res['Items'].forEach(device => {if (device.type === type) devices.push(device)});
+      res['Items'].forEach(device => {
+        if (device.type === type) devices.push(device)
+      });
       response.statusCode = 200;
       response.body       = JSON.stringify({devices: devices});
     }

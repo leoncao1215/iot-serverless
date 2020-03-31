@@ -53,6 +53,13 @@ functions:
           path: addDevice
           method: post
           cors: true
+  batchAddDevice:
+    handler: srv/deviceHandler.batchAddDevice
+    events:
+      - http:
+          path: batchAddDevice
+          method: post
+          cors: true
   queryDeviceList:
     handler: srv/deviceHandler.queryDeviceList
     events:

@@ -4,7 +4,7 @@
         "serialNumber": "SN-D7F3C8947867",
         "deviceName": "Bedroom light",
         "type": "Light",
-        "switcher": "off",
+        "switcher": "on",
         "disabled": false,
         "down": false
     },
@@ -14,7 +14,7 @@
         "deviceName": "Bedroom brightness sensor",
         "type": "Sensor",
         "switcher": "off",
-        "disabled": false,
+        "disabled": true,
         "down": false
     },
     {
@@ -24,7 +24,7 @@
         "type": "Light",
         "switcher": "off",
         "disabled": false,
-        "down": false
+        "down": true
     },
     {
         "clientId": "ID-91B2F06B3F08",

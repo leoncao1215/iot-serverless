@@ -209,7 +209,10 @@ module.exports.controlDevice = (event, context, callback) => {
     action      : queryParams.action
   };
 
-  const actionList = ['turnOn', 'turnOff'];
+  const actionList = [
+    'turnOn', 'turnOff',
+    'offline', 'online',
+  ];
   let actionIllegal = true;
 
   actionList.forEach(action => {
@@ -225,22 +228,43 @@ module.exports.controlDevice = (event, context, callback) => {
   }
 
   const dynamodb = require('./dynamodb');
-  const params   = {
-    TableName                : 'device',
-    Key                      : {serialNumber: instruction.targetDevice},
-    UpdateExpression         : 'SET switcher = :s',
-    ExpressionAttributeValues: {':s': instruction.action === 'turnOn' ? 'on' : 'off'},
-    ReturnValues             : "UPDATED_NEW"
-  };
-  dynamodb.update(params, (err, data) => {
-    const response = {statusCode: null, body: null};
-    if (err) {
-      response.statusCode = 500;
-      response.body       = JSON.stringify({code: 500, message: "Fail to turn the device."});
-    } else {
-      response.statusCode = 200;
-      response.body       = JSON.stringify({code: 200, message: "Device turned on."});
-    }
-    callback(null, response);
-  })
+  if (instruction.action === 'turnOn' || instruction.action === 'turnOff') {
+    const params = {
+      TableName                : 'device',
+      Key                      : {serialNumber: instruction.targetDevice},
+      UpdateExpression         : 'SET switcher = :s',
+      ExpressionAttributeValues: {':s': instruction.action === 'turnOn' ? 'on' : 'off'},
+      ReturnValues             : "UPDATED_NEW"
+    };
+    dynamodb.update(params, (err, data) => {
+      const response = {statusCode: null, body: null};
+      if (err) {
+        response.statusCode = 500;
+        response.body       = JSON.stringify({code: 500, message: "Fail to turn the device."});
+      } else {
+        response.statusCode = 200;
+        response.body       = JSON.stringify({code: 200, message: "Device turned on."});
+      }
+      callback(null, response);
+    })
+  } else if (instruction.action === 'online' || instruction.action === 'offline') {
+    const params = {
+      TableName                : 'device',
+      Key                      : {serialNumber: instruction.targetDevice},
+      UpdateExpression         : 'SET down = :d',
+      ExpressionAttributeValues: {':d': instruction.action === 'offline'},
+      ReturnValues             : "UPDATED_NEW"
+    };
+    dynamodb.update(params, (err, data) => {
+      const response = {statusCode: null, body: null};
+      if (err) {
+        response.statusCode = 500;
+        response.body       = JSON.stringify({code: 500, message: "Fail to switch device status."});
+      } else {
+        response.statusCode = 200;
+        response.body       = JSON.stringify({code: 200, message: "Device status switched."});
+      }
+      callback(null, response);
+    })
+  }
 };

@@ -2,14 +2,15 @@ import React from "react";
 import {Button, Form, Header, Message, Segment} from "semantic-ui-react";
 import request from "../../util/request-util";
 
-export default class AddDevice extends React.Component {
+export default class EditDevice extends React.Component {
   constructor(props) {
     super(props);
+    const {device} = this.props;
     this.state = {
-      serialNumber     : '',
-      deviceName       : '',
-      type             : '',
-      disabled         : false,
+      serialNumber     : device.serialNumber,
+      deviceName       : device.deviceName,
+      type             : device.type,
+      disabled         : device.disabled,
       serialNumberError: null,
       deviceNameError  : null,
       typeError        : null,
@@ -32,7 +33,7 @@ export default class AddDevice extends React.Component {
           <Message
             success
             header='Success'
-            content="You've successfully added a device. Device list will be refreshed in 3 seconds."
+            content="You've successfully update device info. Device list will be refreshed in 3 seconds."
           />
         );
       case 'error':
@@ -50,18 +51,10 @@ export default class AddDevice extends React.Component {
 
   render() {
     return (
-      <Segment>
-        <Header as='h1'>Add Device</Header>
+      <Segment clearing>
+        {this.message}
+        <Header as='h1'>Editing Device: {this.state.serialNumber}</Header>
         <Form onSubmit={this.handleSubmit}>
-          <Form.Field required>
-            <label>Serial Number</label>
-            <Form.Input
-              placeholder='Serial Number'
-              name='serialNumber'
-              value={this.state.serialNumber}
-              onChange={this.handleChange}
-              error={this.state.serialNumberError}/>
-          </Form.Field>
           <Form.Field required>
             <label>Device Name</label>
             <Form.Input
@@ -91,12 +84,12 @@ export default class AddDevice extends React.Component {
               checked={this.state.disabled}
               onChange={this.handleChange}/>
           </Form.Field>
-          {this.message}
-          <Button.Group>
+          <Button.Group floated='left'>
             <Form.Button content='Submit' positive>Submit</Form.Button>
             <Button.Or/>
             <Button onClick={this.props.onCancel}>Cancel</Button>
           </Button.Group>
+          <Button floated='right' negative>Delete</Button>
         </Form>
       </Segment>
     );

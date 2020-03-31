@@ -2,6 +2,8 @@ import request from "../../util/request-util";
 import React from "react";
 import {Table, Menu, Icon, Button, Header, Segment, Select, Dropdown} from "semantic-ui-react";
 import AddDevice from "./AddDevice";
+import EditDevice from "./EditDevice";
+import ViewDevice from "./ViewDevice";
 
 export default class Device extends React.Component {
   constructor(props) {
@@ -135,21 +137,15 @@ export default class Device extends React.Component {
     switch (this.state.action) {
       case 'add':
         return (
-            <AddDevice onSuccess={this.handleSuccess} onCancel={this.handleCancel} />
+          <AddDevice onSuccess={this.handleSuccess} onCancel={this.handleCancel}/>
         );
       case 'view':
         return (
-          <Segment>
-            <Header as='h1'>Device: {`${curDevice.deviceName} (${curDevice.serialNumber})`}</Header>
-            <Button onClick={() => this.handleEditDevice()}>Edit</Button>
-          </Segment>
+          <ViewDevice device={this.state.curDevice} onSuccess={this.handleSuccess} onEdit={() => this.handleEditDevice()}/>
         );
       case 'edit':
         return (
-          <Segment>
-            <Header as='h1'>Editing Device: {`${curDevice.deviceName} (${curDevice.serialNumber})`}</Header>
-            <Button onClick={() => this.handleViewDevice()}>Cancel</Button>
-          </Segment>
+          <EditDevice device={this.state.curDevice} onSuccess={this.handleSuccess} onCancel={() => this.handleViewDevice()}/>
         );
       default:
         return undefined;
@@ -205,7 +201,7 @@ export default class Device extends React.Component {
     })
   };
 
-  handleSuccess =() => {
+  handleSuccess = () => {
     this.handleCancel();
     this.handleFilter();
   }

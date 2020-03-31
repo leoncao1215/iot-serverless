@@ -8,7 +8,7 @@ import {
 import {
   Container,
   Image,
-  Menu,
+  Menu, Segment,
 } from 'semantic-ui-react'
 import Device from './device/Device'
 import './App.scss';
@@ -21,14 +21,14 @@ class App extends React.Component {
           <Menu inverted>
             <Container>
               <Menu.Item as='a' header>
-                <Image size='mini' src='logo192.png' style={{ marginRight: '1.5em' }} />
+                <Image size='mini' src='logo192.png' style={{marginRight: '1.5em'}}/>
                 IoT-Serverless
               </Menu.Item>
               <Menu.Item as='a'><Link to="/">Home</Link></Menu.Item>
               <Menu.Item as='a'><Link to="/device">Device</Link></Menu.Item>
             </Container>
           </Menu>
-          <Container>
+          <Container style={{minHeight: '85vh'}}>
             <Switch>
               <Route path="/device">
                 <Device/>
@@ -38,6 +38,11 @@ class App extends React.Component {
               </Route>
             </Switch>
           </Container>
+          <Segment inverted vertical style={{margin: '5em 0em 0em', padding: '5em 0em'}}>
+            <Container textAlign='center'>
+              All right reserved.
+            </Container>
+          </Segment>
         </div>
       </Router>
     )

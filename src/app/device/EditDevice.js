@@ -49,6 +49,17 @@ export default class EditDevice extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.device !== this.props.device) {
+      this.setState({
+        serialNumber     : this.props.device.serialNumber,
+        deviceName       : this.props.device.deviceName,
+        type             : this.props.device.type,
+        disabled         : this.props.device.disabled,
+      })
+    }
+  }
+
   render() {
     return (
       <Segment clearing>

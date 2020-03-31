@@ -141,11 +141,11 @@ export default class Device extends React.Component {
         );
       case 'view':
         return (
-          <ViewDevice device={this.state.curDevice} onSuccess={this.handleSuccess} onEdit={() => this.handleEditDevice()}/>
+          <ViewDevice device={curDevice} onSuccess={this.handleSuccess} onEdit={() => this.handleEditDevice()}/>
         );
       case 'edit':
         return (
-          <EditDevice device={this.state.curDevice} onSuccess={this.handleSuccess} onCancel={() => this.handleViewDevice()}/>
+          <EditDevice device={curDevice} onSuccess={this.handleSuccess} onCancel={() => this.handleViewDevice()}/>
         );
       default:
         return undefined;

@@ -88,6 +88,13 @@ functions:
           path: deleteDevice
           method: delete
           cors: true
+  controlDevice:
+    handler: srv/deviceHandler.controlDevice
+    events:
+      - http:
+          path: controlDevice
+          method: put
+          cors: true
 
 resources:
   Resources:

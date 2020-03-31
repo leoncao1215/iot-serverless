@@ -1,6 +1,6 @@
 import request from "../../util/request-util";
 import React from "react";
-import {Table, Menu, Icon, Button, Header, Segment, Select, Dropdown} from "semantic-ui-react";
+import {Table, Menu, Icon, Button, Header, Segment, Select, Dropdown, Checkbox} from "semantic-ui-react";
 import AddDevice from "./AddDevice";
 import EditDevice from "./EditDevice";
 import ViewDevice from "./ViewDevice";
@@ -78,10 +78,11 @@ export default class Device extends React.Component {
       <div>
         <div className="device-list">
           <Header as='h1' floated='left'>Devices List</Header>
-          <Button basic floated='right' color='green' onClick={this.handleAddDevice}>Add Device</Button>
           <Dropdown search selection onChange={this.handleChangeType}
                     placeholder='Filter device type' options={options}/>
           <Button basic onClick={this.handleFilter} style={{marginLeft: '.5em'}}>Filter</Button>
+          <Button basic color='green' floated='right' onClick={this.handleAddDevice}>Add Device</Button>
+
           <Table celled>
             <Table.Header>
               <Table.Row>

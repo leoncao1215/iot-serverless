@@ -104,7 +104,10 @@ export default class Device extends React.Component {
                   <Table.Cell collapsing>{getDeviceStatus(device)}</Table.Cell>
                   <Table.Cell collapsing>
                     <Button
-                      basic positive={device.switcher === 'on'} negative={device.switcher === 'off'}
+                      basic
+                      disabled={device.down}
+                      positive={!device.down && device.switcher === 'on'}
+                      negative={!device.down && device.switcher === 'off'}
                       onClick={() => this.handleControlDevice(device.serialNumber, device.switcher === 'on' ? 'turnOff' : 'turnOn')}
                     >
                       Turn {device.switcher === 'on' ? 'off' : 'on'}

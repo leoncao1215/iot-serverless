@@ -12,7 +12,7 @@
 
 ## 目录结构
 
- - `./db/*.json` 数据库文件
+ - `./db/*.json` 数据库初始化文件
  - `./src` React 代码
  - `./srv` Serverless 代码
  - `./serverless.yml` Serverless 配置

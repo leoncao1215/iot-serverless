@@ -26,6 +26,7 @@ class App extends React.Component {
               </Menu.Item>
               <Menu.Item as='a'><Link to="/">Home</Link></Menu.Item>
               <Menu.Item as='a'><Link to="/device">Device</Link></Menu.Item>
+              <Menu.Item as='a'><Link to="/scene">Scene</Link></Menu.Item>
             </Container>
           </Menu>
           <Container style={{minHeight: '85vh'}}>

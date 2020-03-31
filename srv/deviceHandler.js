@@ -57,7 +57,7 @@ module.exports.batchAddDevice = (event, context, callback) => {
   const devices   = JSON.parse(event.body).devices;
   const response  = {statusCode: null, body: null};
   const errorList = [];
-  let cnt = devices.length;
+  let cnt         = devices.length;
 
   devices.forEach(device => {
     const params = {
@@ -80,7 +80,10 @@ module.exports.batchAddDevice = (event, context, callback) => {
       if (cnt <= 0) {
         if (errorList.length !== 0) {
           response.statusCode = 500;
-          response.body       = JSON.stringify({code: 500, message: "Fail to add devices: " + JSON.stringify(errorList)});
+          response.body       = JSON.stringify({
+            code   : 500,
+            message: "Fail to add devices: " + JSON.stringify(errorList)
+          });
         } else {
           response.statusCode = 200;
           response.body       = JSON.stringify({devices: devices});

@@ -1,6 +1,7 @@
 import request from "../../util/request-util";
 import React from "react";
 import {Table, Menu, Icon, Button, Header, Segment, Select, Dropdown} from "semantic-ui-react";
+import AddDevice from "./AddDevice";
 
 export default class Device extends React.Component {
   constructor(props) {
@@ -134,10 +135,7 @@ export default class Device extends React.Component {
     switch (this.state.action) {
       case 'add':
         return (
-          <Segment>
-            <Header as='h1'>Add Pane</Header>
-            <Button onClick={this.handleCancel}>Cancel</Button>
-          </Segment>
+            <AddDevice onSuccess={this.handleSuccess} onCancel={this.handleCancel} />
         );
       case 'view':
         return (
@@ -206,4 +204,9 @@ export default class Device extends React.Component {
       action: ''
     })
   };
+
+  handleSuccess =() => {
+    this.handleCancel();
+    this.handleFilter();
+  }
 }

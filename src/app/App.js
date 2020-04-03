@@ -12,6 +12,7 @@ import {
 } from 'semantic-ui-react'
 import Device from './device/Device'
 import './App.scss';
+import Exception from './exception/Exception';
 
 class App extends React.Component {
   render() {
@@ -27,12 +28,16 @@ class App extends React.Component {
               <Menu.Item as='a'><Link to="/">Home</Link></Menu.Item>
               <Menu.Item as='a'><Link to="/device">Device</Link></Menu.Item>
               <Menu.Item as='a'><Link to="/scene">Scene</Link></Menu.Item>
+              <Menu.Item as='a'><Link to="/exception">Exception</Link></Menu.Item>
             </Container>
           </Menu>
           <Container style={{minHeight: '85vh'}}>
             <Switch>
               <Route path="/device">
                 <Device/>
+              </Route>
+              <Route path="/exception">
+                <Exception/>
               </Route>
               <Route path="/">
                 <div>Home Page</div>

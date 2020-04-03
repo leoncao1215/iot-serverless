@@ -1,0 +1,35 @@
+[
+    {
+        "exceptionId":"1",
+        "exceptionContent":"机械故障",
+        "serialNumber": "SN-D7F3C8947868",
+        "exceptionCode":"22xcsa",
+        "time":"2019/03/04 18:12:11",
+        "isresolved":false
+    }
+    ,
+    {
+        "exceptionId":"2",
+        "exceptionContent":"传感器故障",
+        "serialNumber": "SN-D7F3C8947868",
+        "exceptionCode":"22xcsa",
+        "time":"2019/03/04 18:12:11",
+        "isresolved":false
+    }
+    ,  {
+        "exceptionId":"3",
+        "exceptionContent":"电力故障",
+        "serialNumber": "SN-D7F3C8947868",
+        "exceptionCode":"22xcsa",
+        "time":"2019/03/04 18:12:11",
+        "isresolved":false
+    }
+    ,  {
+        "exceptionId":"4",
+        "exceptionContent":"其他故障",
+        "serialNumber": "SN-D7F3C8947868",
+        "exceptionCode":"22xcsa",
+        "time":"2019/03/04 18:12:11",
+        "isresolved":false
+    }
+]

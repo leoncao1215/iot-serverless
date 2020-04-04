@@ -11,6 +11,7 @@ import {
   Menu, Segment,
 } from 'semantic-ui-react'
 import Device from './device/Device'
+import Scene from './scene/Scene'
 import './App.scss';
 import Exception from './exception/Exception';
 
@@ -35,6 +36,9 @@ class App extends React.Component {
             <Switch>
               <Route path="/device">
                 <Device/>
+              </Route>
+              <Route path="/scene">
+                <Scene/>
               </Route>
               <Route path="/exception">
                 <Exception/>

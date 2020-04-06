@@ -118,31 +118,6 @@ module.exports.querySceneList = (event, context, callback) => {
 };
 
 /**
- * 查询所有场景条件
- *
- * @param event
- * @param context
- * @param callback
- */
-module.exports.queryCondList = (event, context, callback) => {
-    const dynamodb = require('./dynamodb');
-
-    dynamodb.scan({TableName: 'scene'}, (err, data) => {
-        const response = {statusCode: null, body: null};
-        if (err) {
-            response.statusCode = 500;
-            response.body       = JSON.stringify({code: 500, message: "ScanItem Error"});
-        } else if ("Items" in data) {
-            const conds = new Set();
-            data['Items'].forEach(scene => conds.add(scene.cond));
-            response.statusCode = 200;
-            response.body       = JSON.stringify({conds: Array.from(conds)});
-        }
-        callback(null, response);
-    });
-};
-
-/**
  * 查询所有某一类型的设备
  *
  * @param event

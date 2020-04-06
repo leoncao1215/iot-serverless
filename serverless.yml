@@ -21,6 +21,10 @@ custom:
             sources: [./db/device.json]
           - table: exception
             sources: [./db/exception.json]
+          - table: cond
+            sources: [./db/cond.json]
+          - table: scene
+            sources: [./db/scene.json]
 
 provider:
   name: aws
@@ -119,12 +123,10 @@ resources:
       DeletionPolicy: Retain
       Properties:
         AttributeDefinitions:
-          -
-            AttributeName: serialNumber
+          - AttributeName: serialNumber
             AttributeType: S
         KeySchema:
-          -
-            AttributeName: serialNumber
+          - AttributeName: serialNumber
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1
@@ -135,14 +137,40 @@ resources:
       DeletionPolicy: Retain
       Properties:
         AttributeDefinitions:
-          -
-            AttributeName: exceptionId
+          - AttributeName: exceptionId
             AttributeType: S
         KeySchema:
-          -
-            AttributeName: exceptionId
+          - AttributeName: exceptionId
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: exception
+    CondDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: serialNumber
+            AttributeType: S
+        KeySchema:
+          - AttributeName: serialNumber
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: cond
+    SceneDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: serialNumber
+            AttributeType: S
+        KeySchema:
+          - AttributeName: serialNumber
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: scene

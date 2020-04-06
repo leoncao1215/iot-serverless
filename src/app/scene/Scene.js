@@ -7,9 +7,6 @@ export default class Scene extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            devices  : [],
-            types    : [],
-
             scenes   : [],
             conds    : [],
             action   : '',

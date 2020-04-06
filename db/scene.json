@@ -1,0 +1,17 @@
+[
+    {
+        "sceneId": "ID-7363656e65-01",
+        "serialNumber": "SN-7363656e65-01",
+        "sceneName": "Bedroom light"
+    },
+    {
+        "sceneId": "ID-7363656e65-02",
+        "serialNumber": "SN-7363656e65-02",
+        "sceneName": "Bedroom brightness sensor"
+    },
+    {
+        "sceneId": "ID-7363656e65-03",
+        "serialNumber": "SN-7363656e65-03",
+        "sceneName": "Bathroom light"
+    }
+]

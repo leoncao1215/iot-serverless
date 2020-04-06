@@ -8,22 +8,60 @@ export default class AddScene extends React.Component {
         this.state = {
             serialNumber     : '',
             sceneName        : '',
-            type             : '',
-            disabled         : false,
+
+            condTypes        : [],
+            condType         : '',
+
+            conds            : {},
+            cond             : '',
+
+            devices          : [],
+            device           : '',
+
+            operations       : [],
+            operation        : '',
+
             serialNumberError: null,
             sceneNameError   : null,
-            typeError        : null,
+            condTypeError    : null,
+            condError        : null,
+            operationError   : null,
             message          : null,
         }
     }
 
-    get typeOptions() {
-        return [
-            {key: 'Light', value: 'Light', text: 'Light'},
-            {key: 'Sensor', value: 'Sensor', text: 'Sensor'},
-            {key: 'Switcher', value: 'Switcher', text: 'Switcher'},
-        ]
+    componentDidMount() {
+        this.fetchConds();
     }
+
+    fetchConds = () => {
+        request.get('/queryCondList')
+            .then(res => {
+                let conds = [];
+                let condTypes = [];
+                let condTypeT = [];
+                res.conds.map(cond => {
+                    if (condTypeT.indexOf(cond.type) < 0){
+                        condTypeT.push(cond.type);
+                        condTypes.push({
+                            key: cond.type,
+                            value: cond.type,
+                            text: cond.type,
+                        });
+                        conds[cond.type] = [];
+                    }
+                    conds[cond.type].push({
+                        key: cond.serialNumber,
+                        value: cond.serialNumber,
+                        text: cond.desc,
+                    })
+                });
+                this.setState({
+                    condTypes: condTypes,
+                    conds: conds
+                })
+            });
+    };
 
     get message() {
         switch (this.state.message) {
@@ -73,24 +111,40 @@ export default class AddScene extends React.Component {
                             error={this.state.sceneNameError}/>
                     </Form.Field>
                     <Form.Field required>
-                        <label>Device Type</label>
+                        <label>Trigger Condition Type</label>
                         <Form.Dropdown
                             fluid search selection required
-                            placeholder='Select Device Type'
-                            options={this.typeOptions}
-                            name='type'
-                            value={this.state.type}
+                            placeholder='Trigger Condition Type'
+                            options={this.state.condTypes}
+                            name='condType'
+                            value={this.state.condType}
                             onChange={this.handleChange}
-                            error={this.state.typeError}
+                            error={this.state.condTypeError}
                         />
                     </Form.Field>
-                    <Form.Field>
-                        <Form.Checkbox
-                            toggle
-                            label='Disable device'
-                            name='disabled'
-                            checked={this.state.disabled}
-                            onChange={this.handleChange}/>
+                    <Form.Field required>
+                        <label>Trigger Condition</label>
+                        <Form.Dropdown
+                            fluid search selection required
+                            placeholder='Trigger Condition Type'
+                            options={this.state.conds[this.state.condType]}
+                            name='cond'
+                            value={this.state.cond}
+                            onChange={this.handleChange}
+                            error={this.state.condError}
+                        />
+                    </Form.Field>
+                    <Form.Field required>
+                        <label>Device Operation</label>
+                        <Form.Dropdown
+                            fluid search selection required
+                            placeholder='Device Operation'
+                            options={this.operations}
+                            name='operation'
+                            value={this.state.operation}
+                            onChange={this.handleChange}
+                            error={this.state.operationError}
+                        />
                     </Form.Field>
                     <Button.Group>
                         <Button onClick={this.handleSubmit} positive>Submit</Button>
@@ -103,16 +157,12 @@ export default class AddScene extends React.Component {
     }
 
     handleChange = (e, {name, value}) => {
-        if (name === 'disabled') {
-            this.setState({disabled: !this.state.disabled})
-        } else {
-            this.setState({[name]: value})
-        }
+        this.setState({[name]: value})
     };
 
     handleSubmit = () => {
-        const {serialNumber, sceneName, type, disabled} = this.state;
-        let hasError                                     = false;
+        const {serialNumber, sceneName, condType, cond, operation} = this.state;
+        let hasError = false;
         if (!serialNumber) {
             hasError = true;
             this.setState({serialNumberError: 'Please Input Serial Number'})
@@ -121,23 +171,35 @@ export default class AddScene extends React.Component {
         }
         if (!sceneName) {
             hasError = true;
-            this.setState({sceneNameError: 'Please Input Device Name'})
+            this.setState({sceneNameError: 'Please Input Scene Name'})
         } else {
             this.setState({sceneNameError: null})
         }
-        if (!type) {
+        if (!condType) {
             hasError = true;
-            this.setState({typeError: 'Please Select Device Type'})
+            this.setState({condTypeError: 'Please Select Trigger Condition Type'})
         } else {
-            this.setState({typeError: null})
+            this.setState({condTypeError: null})
+        }
+        if (!cond) {
+            hasError = true;
+            this.setState({condError: 'Please Select Trigger Condition'})
+        } else {
+            this.setState({condError: null})
+        }
+        if (!operation) {
+            hasError = true;
+            this.setState({operationError: 'Please Select Device Operation'})
+        } else {
+            this.setState({operationError: null})
         }
         if (!hasError) {
-            const device        = {
-                serialNumber, sceneName, type, disabled
+            const scene        = {
+                serialNumber, sceneName, condType, cond, operation
             };
             const handleSuccess = this.props.onSuccess;
-            console.log(device);
-            request.post('/addDevice', device)
+            console.log(scene);
+            request.post('/addScene', scene)
                 .then(res => {
                     const code = res.code;
                     if (code !== 200) {

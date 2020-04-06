@@ -8,15 +8,12 @@ export default class Scene extends React.Component {
         super(props);
         this.state = {
             scenes   : [],
-            conds    : [],
-            action   : '',
             curScene: {},
         }
     }
 
     componentDidMount() {
         this.fetchScenes();
-        this.fetchConds();
     }
 
     render() {
@@ -28,43 +25,18 @@ export default class Scene extends React.Component {
         )
     };
 
-    fetchScenes = (type) => {
-        if (!type) {
-            request.get('/querySceneList')
-                .then(res =>
+    fetchScenes = () => {
+        request.get('/querySceneList')
+            .then(res => {
+                if (res.scenes) {
                     this.setState({
                         scenes: res.scenes
                     })
-                );
-        }
-    };
-
-    fetchConds = () => {
-        request.get('/queryCondList')
-            .then(res =>
-                this.setState({
-                    types: res.types
-                })
-            );
+                }
+            });
     };
 
     get sceneTable() {
-        const options = [
-            {key: 'none', value: 'none', text: '-- none --'},
-        ];
-
-        // this.state.types.forEach(type => options.push({key: type, value: type, text: type}));
-
-        const getDeviceStatus = (device) => {
-            if (device.disabled) {
-                return 'Disabled';
-            } else if (device.down) {
-                return 'Offline';
-            } else {
-                return 'Normal';
-            }
-        };
-
         return (
             <div>
                 <div className="scene-list">
@@ -74,42 +46,20 @@ export default class Scene extends React.Component {
                     <Table celled>
                         <Table.Header>
                             <Table.Row>
+                                <Table.HeaderCell>Serial ID</Table.HeaderCell>
                                 <Table.HeaderCell>Serial Number</Table.HeaderCell>
-                                <Table.HeaderCell>Type</Table.HeaderCell>
                                 <Table.HeaderCell>Device Name</Table.HeaderCell>
-                                <Table.HeaderCell>Status</Table.HeaderCell>
-                                <Table.HeaderCell>Control</Table.HeaderCell>
-                                <Table.HeaderCell>Actions</Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
 
                         <Table.Body>
-                            {/*{this.state.devices.map(device =>*/}
-                            {/*    <Table.Row>*/}
-                            {/*        <Table.Cell collapsing>{device.serialNumber}</Table.Cell>*/}
-                            {/*        <Table.Cell collapsing>{device.type}</Table.Cell>*/}
-                            {/*        <Table.Cell>{device.deviceName}</Table.Cell>*/}
-                            {/*        <Table.Cell collapsing>{getDeviceStatus(device)}</Table.Cell>*/}
-                            {/*        <Table.Cell collapsing>*/}
-                            {/*            <Button*/}
-                            {/*                basic*/}
-                            {/*                disabled={device.down}*/}
-                            {/*                positive={!device.down && device.switcher === 'on'}*/}
-                            {/*                negative={!device.down && device.switcher === 'off'}*/}
-                            {/*                onClick={() => this.handleControlDevice(device.serialNumber, device.switcher === 'on' ? 'turnOff' : 'turnOn')}*/}
-                            {/*            >*/}
-                            {/*                Turn {device.switcher === 'on' ? 'off' : 'on'}*/}
-                            {/*            </Button>*/}
-                            {/*        </Table.Cell>*/}
-                            {/*        <Table.Cell collapsing>*/}
-                            {/*            <Button.Group>*/}
-                            {/*                <Button positive onClick={() => this.handleViewDevice(device)}>View</Button>*/}
-                            {/*                <Button.Or/>*/}
-                            {/*                <Button onClick={() => this.handleEditDevice(device)}>Edit</Button>*/}
-                            {/*            </Button.Group>*/}
-                            {/*        </Table.Cell>*/}
-                            {/*    </Table.Row>*/}
-                            {/*)}*/}
+                            {this.state.scenes.map(scene =>
+                                <Table.Row>
+                                    <Table.Cell>{scene.sceneId}</Table.Cell>
+                                    <Table.Cell>{scene.sceneName}</Table.Cell>
+                                    <Table.Cell collapsing>{scene.serialNumber}</Table.Cell>
+                                </Table.Row>
+                            )}
                         </Table.Body>
 
                         <Table.Footer>

@@ -3,6 +3,8 @@
         "condId": "ID-636f6e64-001",
         "serialNumber": "SN-636f6e64-001",
         "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 08:00:00",
         "hour": 8,
         "minute": 0,
         "second": 0
@@ -11,6 +13,8 @@
         "condId": "ID-636f6e64-002",
         "serialNumber": "SN-636f6e64-002",
         "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 20:00:00",
         "hour": 20,
         "minute": 0,
         "second": 0
@@ -19,24 +23,32 @@
         "condId": "ID-636f6e64-101",
         "serialNumber": "SN-636f6e64-101",
         "condName": "Light Sensor Trigger",
+        "type": "brightness",
+        "desc": "Brightness is less than 10",
         "brightness": 10
     },
     {
         "condId": "ID-636f6e64-102",
         "serialNumber": "SN-636f6e64-102",
         "condName": "Light Sensor Trigger",
+        "type": "brightness",
+        "desc": "Brightness is more than 80",
         "brightness": 80
     },
     {
         "condId": "ID-636f6e64-201",
         "serialNumber": "SN-636f6e64-201",
         "condName": "Thermal Sensor Trigger",
+        "type": "temperature",
+        "desc": "Temperature is less than 5 Centigrade",
         "temperature": 5
     },
     {
         "condId": "ID-636f6e64-202",
         "serialNumber": "SN-636f6e64-202",
         "condName": "Thermal Sensor Trigger",
+        "type": "temperature",
+        "desc": "Temperature is more than 30 Centigrade",
         "temperature": 30
     }
 ]

@@ -1,17 +1,29 @@
 [
     {
-        "sceneId": "ID-7363656e65-01",
         "serialNumber": "SN-7363656e65-01",
-        "sceneName": "Scene 1"
+        "sceneName"   : "Scene 1",
+        "condType"    : "brightness",
+        "cond"        : "SN-636f6e64-101",
+        "condDesc"    : "Brightness is less than 10",
+        "device"      : "SN-D7F3C8947867",
+        "operation"   : "turn on"
     },
     {
-        "sceneId": "ID-7363656e65-02",
         "serialNumber": "SN-7363656e65-02",
-        "sceneName": "Scene 2"
+        "sceneName"   : "Scene 2",
+        "condType"    : "brightness",
+        "cond"        : "SN-636f6e64-102",
+        "condDesc"    : "Brightness is more than 80",
+        "device"      : "SN-D7F3C8947867",
+        "operation"   : "turn off"
     },
     {
-        "sceneId": "ID-7363656e65-03",
         "serialNumber": "SN-7363656e65-03",
-        "sceneName": "Scene 3"
+        "sceneName"   : "Scene 3",
+        "condType"    : "temperature",
+        "cond"        : "SN-636f6e64-201",
+        "condDesc"    : "Temperature is less than 5 Centigrade",
+        "device"      : "SN-D7F3C8947869",
+        "operation"   : "turn on"
     }
 ]

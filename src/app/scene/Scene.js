@@ -2,13 +2,15 @@ import request from "../../util/request-util";
 import React from "react";
 import {Table, Menu, Icon, Button, Header, Segment, Select, Dropdown, Checkbox} from "semantic-ui-react";
 import AddScene from "./AddScene";
+import ViewScene from "./ViewScene";
+import EditScene from "./EditScene";
 
 export default class Scene extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             scenes   : [],
-            curScene: {},
+            curScene : '',
         }
     }
 
@@ -46,18 +48,28 @@ export default class Scene extends React.Component {
                     <Table celled>
                         <Table.Header>
                             <Table.Row>
-                                <Table.HeaderCell>Serial ID</Table.HeaderCell>
                                 <Table.HeaderCell>Serial Number</Table.HeaderCell>
-                                <Table.HeaderCell>Device Name</Table.HeaderCell>
+                                <Table.HeaderCell>Scene Name</Table.HeaderCell>
+                                <Table.HeaderCell>Condition</Table.HeaderCell>
+                                <Table.HeaderCell>Device</Table.HeaderCell>
+                                <Table.HeaderCell>Actions</Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
 
                         <Table.Body>
                             {this.state.scenes.map(scene =>
                                 <Table.Row>
-                                    <Table.Cell>{scene.sceneId}</Table.Cell>
-                                    <Table.Cell>{scene.sceneName}</Table.Cell>
                                     <Table.Cell collapsing>{scene.serialNumber}</Table.Cell>
+                                    <Table.Cell>{scene.sceneName}</Table.Cell>
+                                    <Table.Cell>{scene.cond}</Table.Cell>
+                                    <Table.Cell>{scene.device}</Table.Cell>
+                                    <Table.Cell collapsing>
+                                        <Button.Group>
+                                            <Button positive onClick={() => this.handleViewScene(scene) }>View</Button>
+                                            <Button.Or/>
+                                            <Button onClick={() => {} }>Edit</Button>
+                                        </Button.Group>
+                                    </Table.Cell>
                                 </Table.Row>
                             )}
                         </Table.Body>
@@ -92,16 +104,25 @@ export default class Scene extends React.Component {
                         onSuccess={this.handleSuccess}
                         onCancel={this.handleCancel}/>
                 );
+            case 'view':
+                return (
+                    <ViewScene
+                        scene={curScene}
+                        onSuccess={this.handleSuccess}
+                        onEdit={() => this.handleEditScene()}/>
+                );
+            case 'edit':
+                return (
+                    <EditScene
+                        scene={curScene}
+                        onSuccess={this.handleSuccess}
+                        onCancel={() => this.handleViewScene()}
+                        onDelete={this.handleDelete}/>
+                );
             default:
                 return undefined;
         }
     }
-
-    handleChangeType = (e, data) => {
-        this.setState({
-            type: data.value
-        })
-    };
 
     handleFilter = () => {
         const {type} = this.state;
@@ -114,11 +135,11 @@ export default class Scene extends React.Component {
         })
     };
 
-    handleViewDevice = (device) => {
-        if (device) {
+    handleViewScene = (scene) => {
+        if (scene) {
             this.setState({
                 action   : 'view',
-                curScene: device
+                curScene : scene
             })
         } else {
             this.setState({
@@ -127,24 +148,17 @@ export default class Scene extends React.Component {
         }
     };
 
-    handleEditDevice = (device) => {
-        if (device) {
+    handleEditScene = (scene) => {
+        if (scene) {
             this.setState({
                 action   : 'edit',
-                curScene: device
+                curScene: scene
             })
         } else {
             this.setState({
                 action: 'edit',
             })
         }
-    };
-
-    handleControlDevice = (serialNumber, action) => {
-        request.put(`/controlDevice?targetDevice=${serialNumber}&action=${action}`, {})
-            .then(res => {
-                this.handleFilter();
-            })
     };
 
     handleCancel = () => {

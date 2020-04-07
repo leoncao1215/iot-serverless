@@ -15,30 +15,69 @@ module.exports.addScene = (event, context, callback) => {
     const params   = {
         TableName: 'scene',
         Item     : {
-            sceneId     : 'ID-7363656e65-' + body.serialNumber,
             serialNumber: 'SN-7363656e65-' + body.serialNumber,
             sceneName   : body.sceneName,
-            condition   : body.condition,
+            condType    : body.condType,
+            cond        : body.cond,
+            condDesc    : body.condDesc,
+            device      : body.device,
             operation   : body.operation,
         }
     };
 
-    dynamodb.put(params, (err, data) => {
+    console.log(params);
+
+    callback(null, {
+        statusCode : 200,
+        body       : JSON.stringify('')
+    });
+
+    // dynamodb.put(params, (err, data) => {
+    //     if (err) {
+    //         response.statusCode = 500;
+    //         response.body       = JSON.stringify({
+    //             code   : 500,
+    //             message: "Unable to add scene. Error JSON:" + JSON.stringify(err, null, 2)
+    //         });
+    //     } else {
+    //         response.statusCode = 200;
+    //         response.body       = JSON.stringify({
+    //             code   : 200,
+    //             message: "Successfully add scene:" + JSON.stringify(data, null, 2)
+    //         });
+    //     }
+    //     callback(null, response);
+    // })
+};
+
+/**
+ * 通过 SN 查询场景
+ *
+ * @param event
+ * @param context
+ * @param callback
+ */
+module.exports.querySceneBySN = (event, context, callback) => {
+    const serialNumber = event.queryStringParameters.serialNumber;
+
+    const params = {
+        TableName: 'scene',
+        KeyConditionExpression: 'serialNumber=:SN',
+        ExpressionAttributeValues: {
+            ":SN": serialNumber
+        }
+    };
+    dynamodb.query(params, (err, data) => {
+        const response = {statusCode: null, body: null};
         if (err) {
             response.statusCode = 500;
-            response.body       = JSON.stringify({
-                code   : 500,
-                message: "Unable to add scene. Error JSON:" + JSON.stringify(err, null, 2)
-            });
-        } else {
+            response.body       = JSON.stringify({code: 500, message: err});
+        } else if ("Items" in data) {
             response.statusCode = 200;
-            response.body       = JSON.stringify({
-                code   : 200,
-                message: "Successfully add scene:" + JSON.stringify(data, null, 2)
-            });
+            response.body       = JSON.stringify({scene: data["Items"][0]});
         }
         callback(null, response);
-    })
+    });
 };
 
 /**

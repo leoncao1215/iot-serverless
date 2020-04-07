@@ -115,12 +115,26 @@ functions:
           path: addException
           method: post
           cors: true
+  querySceneBySN:
+    handler: srv/sceneHandler.querySceneBySN
+    events:
+      - http:
+          path: querySceneBySN
+          method: get
+          cors: true
   querySceneList:
     handler: srv/sceneHandler.querySceneList
     events:
       - http:
           path: querySceneList
           method: get
+          cors: true
+  addScene:
+    handler: srv/sceneHandler.addScene
+    events:
+      - http:
+          path: addScene
+          method: post
           cors: true
   queryCondList:
     handler: srv/condHandler.queryCondList
@@ -167,13 +181,9 @@ resources:
         AttributeDefinitions:
           - AttributeName: serialNumber
             AttributeType: S
-          - AttributeName: condId
-            AttributeType: S
         KeySchema:
           - AttributeName: serialNumber
             KeyType: HASH
-          - AttributeName: condId
-            KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
@@ -185,13 +195,9 @@ resources:
         AttributeDefinitions:
           - AttributeName: serialNumber
             AttributeType: S
-          - AttributeName: sceneId
-            AttributeType: S
         KeySchema:
           - AttributeName: serialNumber
             KeyType: HASH
-          - AttributeName: sceneId
-            KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1

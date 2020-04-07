@@ -9,22 +9,24 @@ export default class AddScene extends React.Component {
             serialNumber     : '',
             sceneName        : '',
 
-            condTypes        : [],
+            condTypeOptions  : [],
             condType         : '',
 
+            condOptions      : {},
             conds            : {},
             cond             : '',
 
-            devices          : [],
+            deviceOptions    : [],
+            devices          : {},
             device           : '',
 
-            operations       : [],
             operation        : '',
 
             serialNumberError: null,
             sceneNameError   : null,
             condTypeError    : null,
             condError        : null,
+            deviceError      : null,
             operationError   : null,
             message          : null,
         }
@@ -32,36 +34,67 @@ export default class AddScene extends React.Component {
 
     componentDidMount() {
         this.fetchConds();
+        this.fetchDevices();
     }
 
     fetchConds = () => {
         request.get('/queryCondList')
             .then(res => {
-                let conds = [];
-                let condTypes = [];
+                let condOptions = [];
+                let condTypeOptions = [];
                 let condTypeT = [];
+                let conds = {};
                 res.conds.map(cond => {
+                    conds[cond.serialNumber] = cond;
                     if (condTypeT.indexOf(cond.type) < 0){
                         condTypeT.push(cond.type);
-                        condTypes.push({
+                        condTypeOptions.push({
                             key: cond.type,
                             value: cond.type,
                             text: cond.type,
                         });
-                        conds[cond.type] = [];
+                        condOptions[cond.type] = [];
                     }
-                    conds[cond.type].push({
+                    condOptions[cond.type].push({
                         key: cond.serialNumber,
                         value: cond.serialNumber,
                         text: cond.desc,
                     })
                 });
                 this.setState({
-                    condTypes: condTypes,
-                    conds: conds
+                    condTypeOptions : condTypeOptions,
+                    condOptions     : condOptions,
+                    conds           : conds,
                 })
             });
     };
+
+    fetchDevices = () => {
+        request.get('/queryDeviceList')
+            .then(res => {
+                let deviceOptions = [];
+                let devices = {};
+                res.devices.map(device => {
+                    devices[device.serialNumber] = device;
+                    deviceOptions.push({
+                        key: device.serialNumber,
+                        value: device.serialNumber,
+                        text: device.serialNumber + ' ' + device.deviceName,
+                    })
+                });
+                this.setState({
+                    deviceOptions : deviceOptions,
+                    devices       : devices,
+                })
+            });
+    };
+
+    get opOptions() {
+        return [
+            {key: 'turnOn', value: 'turnOn', text: 'turn on' },
+            {key: 'turnOff', value: 'turnOff', text: 'turn off' },
+        ]
+    }
 
     get message() {
         switch (this.state.message) {
@@ -115,7 +148,7 @@ export default class AddScene extends React.Component {
                         <Form.Dropdown
                             fluid search selection required
                             placeholder='Trigger Condition Type'
-                            options={this.state.condTypes}
+                            options={this.state.condTypeOptions}
                             name='condType'
                             value={this.state.condType}
                             onChange={this.handleChange}
@@ -127,7 +160,7 @@ export default class AddScene extends React.Component {
                         <Form.Dropdown
                             fluid search selection required
                             placeholder='Trigger Condition Type'
-                            options={this.state.conds[this.state.condType]}
+                            options={this.state.condOptions[this.state.condType]}
                             name='cond'
                             value={this.state.cond}
                             onChange={this.handleChange}
@@ -135,11 +168,23 @@ export default class AddScene extends React.Component {
                         />
                     </Form.Field>
                     <Form.Field required>
+                        <label>Device</label>
+                        <Form.Dropdown
+                            fluid search selection required
+                            placeholder='Device'
+                            options={this.state.deviceOptions}
+                            name='device'
+                            value={this.state.device}
+                            onChange={this.handleChange}
+                            error={this.state.deviceError}
+                        />
+                    </Form.Field>
+                    <Form.Field required>
                         <label>Device Operation</label>
                         <Form.Dropdown
                             fluid search selection required
                             placeholder='Device Operation'
-                            options={this.operations}
+                            options={this.opOptions}
                             name='operation'
                             value={this.state.operation}
                             onChange={this.handleChange}
@@ -161,7 +206,7 @@ export default class AddScene extends React.Component {
     };
 
     handleSubmit = () => {
-        const {serialNumber, sceneName, condType, cond, operation} = this.state;
+        const {serialNumber, sceneName, condType, cond, device, operation} = this.state;
         let hasError = false;
         if (!serialNumber) {
             hasError = true;
@@ -187,6 +232,12 @@ export default class AddScene extends React.Component {
         } else {
             this.setState({condError: null})
         }
+        if (!device) {
+            hasError = true;
+            this.setState({deviceError: 'Please Select Device'})
+        } else {
+            this.setState({deviceError: null})
+        }
         if (!operation) {
             hasError = true;
             this.setState({operationError: 'Please Select Device Operation'})
@@ -194,8 +245,9 @@ export default class AddScene extends React.Component {
             this.setState({operationError: null})
         }
         if (!hasError) {
+            let condDesc = this.state.conds[cond].desc;
             const scene        = {
-                serialNumber, sceneName, condType, cond, operation
+                serialNumber, sceneName, condType, cond, condDesc, device, operation
             };
             const handleSuccess = this.props.onSuccess;
             console.log(scene);

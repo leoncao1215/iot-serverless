@@ -14,6 +14,7 @@ import Device from './device/Device'
 import Scene from './scene/Scene'
 import './App.scss';
 import Exception from './exception/Exception';
+import User from './user/User';
 
 class App extends React.Component {
   render() {
@@ -30,6 +31,7 @@ class App extends React.Component {
               <Menu.Item as='a'><Link to="/device">Device</Link></Menu.Item>
               <Menu.Item as='a'><Link to="/scene">Scene</Link></Menu.Item>
               <Menu.Item as='a'><Link to="/exception">Exception</Link></Menu.Item>
+              <Menu.Item as='a'><Link to="/user">User</Link></Menu.Item>
             </Container>
           </Menu>
           <Container style={{minHeight: '85vh'}}>
@@ -43,9 +45,11 @@ class App extends React.Component {
               <Route path="/exception">
                 <Exception/>
               </Route>
+              <Route path="/user">
+                <User/>
+              </Route>
               <Route path="/">
                 <div>Home Page</div>
-                <div>test</div>
               </Route>
             </Switch>
           </Container>

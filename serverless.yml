@@ -25,6 +25,8 @@ custom:
             sources: [./db/cond.json]
           - table: scene
             sources: [./db/scene.json]
+          - table: user
+            sources: [./db/user.json]
 
 provider:
   name: aws
@@ -216,3 +218,17 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: scene
+    UserDynamoDbTable:
+          Type: 'AWS::DynamoDB::Table'
+          DeletionPolicy: Retain
+          Properties:
+            AttributeDefinitions:
+              - AttributeName: userId
+                AttributeType: S
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
+            TableName: user

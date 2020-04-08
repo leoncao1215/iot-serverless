@@ -47,6 +47,7 @@ export default class ViewScene extends React.Component {
                     <dd>{operation}</dd>
                 </dl>
                 <Button onClick={this.props.onEdit}>Edit</Button>
+                <Button floated='right' onClick={this.props.onDelete} negative>Delete</Button>
             </Segment>
         );
     }

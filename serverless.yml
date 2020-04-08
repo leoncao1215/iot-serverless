@@ -159,6 +159,27 @@ functions:
           path: addScene
           method: post
           cors: true
+  updateScene:
+    handler: srv/sceneHandler.updateScene
+    events:
+      - http:
+          path: updateScene
+          method: post
+          cors: true
+  updateSceneUsing:
+    handler: srv/sceneHandler.updateSceneUsing
+    events:
+      - http:
+          path: updateSceneUsing
+          method: post
+          cors: true
+  deleteScene:
+    handler: srv/sceneHandler.deleteScene
+    events:
+      - http:
+          path: deleteScene
+          method: delete
+          cors: true
 
 resources:
   Resources:

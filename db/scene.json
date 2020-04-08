@@ -6,7 +6,8 @@
         "cond"        : "SN-636f6e64-101",
         "condDesc"    : "Brightness is less than 10",
         "device"      : "SN-D7F3C8947867",
-        "operation"   : "turn on"
+        "operation"   : "turn on",
+        "isUsing"       : true
     },
     {
         "serialNumber": "SN-7363656e65-02",
@@ -15,7 +16,8 @@
         "cond"        : "SN-636f6e64-102",
         "condDesc"    : "Brightness is more than 80",
         "device"      : "SN-D7F3C8947867",
-        "operation"   : "turn off"
+        "operation"   : "turn off",
+        "isUsing"       : true
     },
     {
         "serialNumber": "SN-7363656e65-03",
@@ -24,7 +26,8 @@
         "cond"        : "SN-636f6e64-201",
         "condDesc"    : "Temperature is less than 5 Centigrade",
         "device"      : "SN-D7F3C8947869",
-        "operation"   : "turn on"
+        "operation"   : "turn on",
+        "isUsing"       : true
     },
     {
         "serialNumber": "SN-7363656e65-04",
@@ -33,7 +36,8 @@
         "cond"        : "SN-636f6e64-002",
         "condDesc"    : "Time is 20:00:00",
         "device"      : "SN-D7F3C8947867",
-        "operation"   : "turn on"
+        "operation"   : "turn on",
+        "isUsing"       : true
     },
     {
         "serialNumber": "SN-7363656e65-05",
@@ -42,6 +46,7 @@
         "cond"        : "SN-636f6e64-001",
         "condDesc"    : "Time is 08:00:00",
         "device"      : "SN-D7F3C8947867",
-        "operation"   : "turn off"
+        "operation"   : "turn off",
+        "isUsing"       : true
     }
 ]

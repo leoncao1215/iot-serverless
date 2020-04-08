@@ -4,6 +4,7 @@ import {Table, Menu, Icon, Button, Header, Segment, Select, Dropdown, Checkbox} 
 import AddScene from "./AddScene";
 import ViewScene from "./ViewScene";
 import EditScene from "./EditScene";
+import ViewDevice from "../device/ViewDevice";
 
 export default class Scene extends React.Component {
     constructor(props) {
@@ -84,6 +85,7 @@ export default class Scene extends React.Component {
                                 <Table.HeaderCell>Condition Type</Table.HeaderCell>
                                 <Table.HeaderCell>Condition</Table.HeaderCell>
                                 <Table.HeaderCell>Device</Table.HeaderCell>
+                                <Table.HeaderCell>State</Table.HeaderCell>
                                 <Table.HeaderCell>Actions</Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
@@ -97,10 +99,20 @@ export default class Scene extends React.Component {
                                     <Table.Cell>{scene.condDesc}</Table.Cell>
                                     <Table.Cell>{scene.device}</Table.Cell>
                                     <Table.Cell collapsing>
+                                        <Button
+                                            basic
+                                            positive={scene.isUsing}
+                                            negative={!scene.isUsing}
+                                            onClick={() => {this.handleChangeSceneState(scene.serialNumber, !scene.isUsing)}}
+                                        >
+                                            {scene.isUsing ? '使用中' : '未使用'}
+                                        </Button>
+                                    </Table.Cell>
+                                    <Table.Cell collapsing>
                                         <Button.Group>
                                             <Button positive onClick={() => this.handleViewScene(scene) }>View</Button>
                                             <Button.Or/>
-                                            <Button onClick={() => {} }>Edit</Button>
+                                            <Button onClick={() => this.handleEditScene(scene) } >Edit</Button>
                                         </Button.Group>
                                     </Table.Cell>
                                 </Table.Row>
@@ -142,7 +154,8 @@ export default class Scene extends React.Component {
                     <ViewScene
                         scene={curScene}
                         onSuccess={this.handleSuccess}
-                        onEdit={() => this.handleEditScene()}/>
+                        onEdit={() => this.handleEditScene()}
+                        onDelete={this.handleDelete}/>
                 );
             case 'edit':
                 return (
@@ -200,6 +213,25 @@ export default class Scene extends React.Component {
         }
     };
 
+    handleChangeSceneState = (serialNumber, isUsing) => {
+        const scene = {
+            'serialNumber': serialNumber,
+            'isUsing': isUsing
+        }
+        console.log(scene);
+        request.post('/updateSceneUsing', scene)
+            .then(res => {
+                const code = res.code;
+                if (code !== 200) {
+                    console.log(res.message);
+                    this.setState({message: 'error'});
+                } else {
+                    this.setState({message: 'success'});
+                    this.handleFilter();
+                }
+            });
+    }
+
     handleCancel = () => {
         this.setState({
             action: ''
@@ -209,6 +241,13 @@ export default class Scene extends React.Component {
     handleSuccess = () => {
         this.handleCancel();
         this.handleFilter();
-        this.fetchConds();
+    };
+
+    handleDelete = () => {
+        const {serialNumber} = this.state.curScene;
+        request.delete(`/deleteScene?serialNumber=${serialNumber}`)
+            .then(res => {
+                this.handleSuccess();
+            })
     };
 }

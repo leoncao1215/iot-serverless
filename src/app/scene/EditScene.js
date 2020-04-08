@@ -7,22 +7,90 @@ export default class EditScene extends React.Component {
         super(props);
         const {scene} = this.props;
         this.state = {
+            condTypeOptions  : [],
+            condOptions      : {},
+            conds            : {},
+            deviceOptions    : [],
+
             serialNumber     : scene.serialNumber,
-            deviceName       : scene.deviceName,
-            type             : scene.type,
-            disabled         : scene.disabled,
+            sceneName        : scene.sceneName,
+            condType         : scene.condType,
+            cond             : scene.cond,
+            condDesc         : scene.condDesc,
+            device           : scene.device,
+            operation        : scene.operation,
+            isUsing          : scene.isUsing,
+
             serialNumberError: null,
-            deviceNameError  : null,
-            typeError        : null,
-            message          : null,
+            sceneNameError   : null,
+            condTypeError    : null,
+            condError        : null,
+            deviceError      : null,
+            operationError   : null,
         }
     }
 
-    get typeOptions() {
+    componentDidMount() {
+        this.fetchConds();
+        this.fetchDevices();
+    }
+
+    fetchConds = () => {
+        request.get('/queryCondList')
+            .then(res => {
+                let condOptions = [];
+                let condTypeOptions = [];
+                let condTypeT = [];
+                let conds = {};
+                res.conds.map(cond => {
+                    conds[cond.serialNumber] = cond;
+                    if (condTypeT.indexOf(cond.type) < 0){
+                        condTypeT.push(cond.type);
+                        condTypeOptions.push({
+                            key: cond.type,
+                            value: cond.type,
+                            text: cond.type,
+                        });
+                        condOptions[cond.type] = [];
+                    }
+                    condOptions[cond.type].push({
+                        key: cond.serialNumber,
+                        value: cond.serialNumber,
+                        text: cond.desc,
+                    })
+                });
+                this.setState({
+                    condTypeOptions : condTypeOptions,
+                    condOptions     : condOptions,
+                    conds           : conds,
+                })
+            });
+    };
+
+    fetchDevices = () => {
+        request.get('/queryDeviceList')
+            .then(res => {
+                let deviceOptions = [];
+                let devices = {};
+                res.devices.map(device => {
+                    devices[device.serialNumber] = device;
+                    deviceOptions.push({
+                        key: device.serialNumber,
+                        value: device.serialNumber,
+                        text: device.serialNumber + ' ' + device.deviceName,
+                    })
+                });
+                this.setState({
+                    deviceOptions : deviceOptions,
+                    devices       : devices,
+                })
+            });
+    };
+
+    get opOptions() {
         return [
-            {key: 'Light', value: 'Light', text: 'Light'},
-            {key: 'Sensor', value: 'Sensor', text: 'Sensor'},
-            {key: 'Switcher', value: 'Switcher', text: 'Switcher'},
+            {key: 'turn on', value: 'turn on', text: 'turn on' },
+            {key: 'turn off', value: 'turn off', text: 'turn off' },
         ]
     }
 
@@ -33,15 +101,15 @@ export default class EditScene extends React.Component {
                     <Message
                         success
                         header='Success'
-                        content="You've successfully update device info. Device list will be refreshed in 3 seconds."
+                        content="You've successfully update scene info. Device list will be refreshed in 3 seconds."
                     />
                 );
             case 'error':
                 return (
                     <Message
                         error
-                        header='Fail to add device'
-                        content='Please check your device info and try again later.'
+                        header='Fail to update scene'
+                        content='Please check your scene info and try again later.'
                     />
                 );
             default:
@@ -50,12 +118,15 @@ export default class EditScene extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.device !== this.props.device) {
+        if (prevProps.scene !== this.props.scene) {
             this.setState({
-                serialNumber     : this.props.device.serialNumber,
-                deviceName       : this.props.device.deviceName,
-                type             : this.props.device.type,
-                disabled         : this.props.device.disabled,
+                serialNumber: this.props.scene.serialNumber,
+                sceneName   : this.props.scene.sceneName,
+                condType    : this.props.scene.condType,
+                cond        : this.props.scene.cond,
+                condDesc    : this.props.scene.condDesc,
+                device      : this.props.scene.device,
+                operation   : this.props.scene.operation,
             })
         }
     }
@@ -64,35 +135,71 @@ export default class EditScene extends React.Component {
         return (
             <Segment clearing>
                 {this.message}
-                <Header as='h1'>Editing Device: {this.state.serialNumber}</Header>
+                <Header as='h1'>Editing Scene: {this.state.serialNumber}</Header>
                 <Form>
                     <Form.Field required>
-                        <label>Device Name</label>
+                        <label>Scene Name</label>
                         <Form.Input
-                            placeholder='Device Name'
-                            name='deviceName'
-                            value={this.state.deviceName}
+                            placeholder='Scene Name'
+                            name='sceneName'
+                            value={this.state.sceneName}
                             onChange={this.handleChange}
-                            error={this.state.deviceNameError}/>
+                            error={this.state.sceneNameError}/>
                     </Form.Field>
                     <Form.Field required>
-                        <label>Device Type</label>
+                        <label>Trigger Condition Type</label>
                         <Form.Dropdown
                             fluid search selection required
-                            placeholder='Select Device Type'
-                            options={this.typeOptions}
-                            name='type'
-                            value={this.state.type}
+                            placeholder='Trigger Condition Type'
+                            options={this.state.condTypeOptions}
+                            name='condType'
+                            value={this.state.condType}
                             onChange={this.handleChange}
-                            error={this.state.typeError}
+                            error={this.state.condTypeError}
+                        />
+                    </Form.Field>
+                    <Form.Field required>
+                        <label>Trigger Condition</label>
+                        <Form.Dropdown
+                            fluid search selection required
+                            placeholder='Trigger Condition Type'
+                            options={this.state.condOptions[this.state.condType]}
+                            name='cond'
+                            value={this.state.cond}
+                            onChange={this.handleChange}
+                            error={this.state.condError}
+                        />
+                    </Form.Field>
+                    <Form.Field required>
+                        <label>Device</label>
+                        <Form.Dropdown
+                            fluid search selection required
+                            placeholder='Device'
+                            options={this.state.deviceOptions}
+                            name='device'
+                            value={this.state.device}
+                            onChange={this.handleChange}
+                            error={this.state.deviceError}
+                        />
+                    </Form.Field>
+                    <Form.Field required>
+                        <label>Device Operation</label>
+                        <Form.Dropdown
+                            fluid search selection required
+                            placeholder='Device Operation'
+                            options={this.opOptions}
+                            name='operation'
+                            value={this.state.operation}
+                            onChange={this.handleChange}
+                            error={this.state.operationError}
                         />
                     </Form.Field>
                     <Form.Field>
                         <Form.Checkbox
                             toggle
-                            label='Disable device'
-                            name='disabled'
-                            checked={this.state.disabled}
+                            label={this.state.isUsing ? 'Use Scene': 'Not Use Scene'}
+                            name='isUsing'
+                            checked={this.state.isUsing}
                             onChange={this.handleChange}/>
                     </Form.Field>
                     <Button.Group floated='left'>
@@ -100,48 +207,60 @@ export default class EditScene extends React.Component {
                         <Button.Or/>
                         <Button onClick={this.props.onCancel}>Cancel</Button>
                     </Button.Group>
-                    <Button floated='right' onClick={this.handleDelete} negative>Delete</Button>
+                    <Button floated='right' onClick={this.props.onDelete} negative>Delete</Button>
                 </Form>
             </Segment>
         );
     }
 
     handleChange = (e, {name, value}) => {
-        if (name === 'disabled') {
-            this.setState({disabled: !this.state.disabled})
+        if (name === 'isUsing') {
+            this.setState({isUsing: !this.state.isUsing})
         } else {
             this.setState({[name]: value})
         }
     };
 
     handleSubmit = () => {
-        const {serialNumber, deviceName, type, disabled} = this.state;
-        let hasError                                     = false;
-        if (!serialNumber) {
+        const {serialNumber, sceneName, condType, cond, condDesc, device, operation, isUsing} = this.state;
+        let hasError = false;
+        if (!sceneName) {
             hasError = true;
-            this.setState({serialNumberError: 'Please Input Serial Number'})
+            this.setState({sceneNameError: 'Please Input Scene Name'})
         } else {
-            this.setState({serialNumberError: null})
+            this.setState({sceneNameError: null})
         }
-        if (!deviceName) {
+        if (!condType) {
             hasError = true;
-            this.setState({deviceNameError: 'Please Input Device Name'})
+            this.setState({condTypeError: 'Please Select Trigger Condition Type'})
         } else {
-            this.setState({deviceNameError: null})
+            this.setState({condTypeError: null})
         }
-        if (!type) {
+        if (!cond) {
             hasError = true;
-            this.setState({typeError: 'Please Select Device Type'})
+            this.setState({condError: 'Please Select Trigger Condition'})
         } else {
-            this.setState({typeError: null})
+            this.setState({condError: null})
+        }
+        if (!device) {
+            hasError = true;
+            this.setState({deviceError: 'Please Select Device'})
+        } else {
+            this.setState({deviceError: null})
+        }
+        if (!operation) {
+            hasError = true;
+            this.setState({operationError: 'Please Select Device Operation'})
+        } else {
+            this.setState({operationError: null})
         }
         if (!hasError) {
-            const device        = {
-                serialNumber, deviceName, type, disabled
+            const scene = {
+                serialNumber, sceneName, condType, cond, condDesc, device, operation, isUsing
             };
             const handleSuccess = this.props.onSuccess;
-            console.log(device);
-            request.post('/addDevice', device)
+            console.log(scene);
+            request.post('/updateScene', scene)
                 .then(res => {
                     const code = res.code;
                     if (code !== 200) {
@@ -157,6 +276,4 @@ export default class EditScene extends React.Component {
                 });
         }
     }
-
-    handleDelete = () => this.props.onDelete(this.props.device);
 }

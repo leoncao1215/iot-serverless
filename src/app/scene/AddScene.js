@@ -21,6 +21,7 @@ export default class AddScene extends React.Component {
             device           : '',
 
             operation        : '',
+            isUsing          : false,
 
             serialNumberError: null,
             sceneNameError   : null,
@@ -91,8 +92,8 @@ export default class AddScene extends React.Component {
 
     get opOptions() {
         return [
-            {key: 'turnOn', value: 'turnOn', text: 'turn on' },
-            {key: 'turnOff', value: 'turnOff', text: 'turn off' },
+            {key: 'turn on', value: 'turn on', text: 'turn on' },
+            {key: 'turn off', value: 'turn off', text: 'turn off' },
         ]
     }
 
@@ -191,6 +192,14 @@ export default class AddScene extends React.Component {
                             error={this.state.operationError}
                         />
                     </Form.Field>
+                    <Form.Field>
+                        <Form.Checkbox
+                            toggle
+                            label={this.state.isUsing ? 'Use Scene': 'Not Use Scene'}
+                            name='isUsing'
+                            checked={this.state.isUsing}
+                            onChange={this.handleChange}/>
+                    </Form.Field>
                     <Button.Group>
                         <Button onClick={this.handleSubmit} positive>Submit</Button>
                         <Button.Or/>
@@ -202,11 +211,15 @@ export default class AddScene extends React.Component {
     }
 
     handleChange = (e, {name, value}) => {
-        this.setState({[name]: value})
+        if (name === 'isUsing') {
+            this.setState({isUsing: !this.state.isUsing})
+        } else {
+            this.setState({[name]: value})
+        }
     };
 
     handleSubmit = () => {
-        const {serialNumber, sceneName, condType, cond, device, operation} = this.state;
+        const {serialNumber, sceneName, condType, cond, device, operation, isUsing} = this.state;
         let hasError = false;
         if (!serialNumber) {
             hasError = true;
@@ -246,8 +259,8 @@ export default class AddScene extends React.Component {
         }
         if (!hasError) {
             let condDesc = this.state.conds[cond].desc;
-            const scene        = {
-                serialNumber, sceneName, condType, cond, condDesc, device, operation
+            const scene  = {
+                serialNumber, sceneName, condType, cond, condDesc, device, operation, isUsing
             };
             const handleSuccess = this.props.onSuccess;
             console.log(scene);

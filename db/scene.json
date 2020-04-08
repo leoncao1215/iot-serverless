@@ -1,7 +1,7 @@
 [
     {
         "serialNumber": "SN-7363656e65-01",
-        "sceneName"   : "Scene 1",
+        "sceneName"   : "亮度低开灯",
         "condType"    : "brightness",
         "cond"        : "SN-636f6e64-101",
         "condDesc"    : "Brightness is less than 10",
@@ -10,7 +10,7 @@
     },
     {
         "serialNumber": "SN-7363656e65-02",
-        "sceneName"   : "Scene 2",
+        "sceneName"   : "亮度高关灯",
         "condType"    : "brightness",
         "cond"        : "SN-636f6e64-102",
         "condDesc"    : "Brightness is more than 80",
@@ -19,11 +19,29 @@
     },
     {
         "serialNumber": "SN-7363656e65-03",
-        "sceneName"   : "Scene 3",
+        "sceneName"   : "温度低打开浴霸",
         "condType"    : "temperature",
         "cond"        : "SN-636f6e64-201",
         "condDesc"    : "Temperature is less than 5 Centigrade",
         "device"      : "SN-D7F3C8947869",
         "operation"   : "turn on"
+    },
+    {
+        "serialNumber": "SN-7363656e65-04",
+        "sceneName"   : "到时间开灯",
+        "condType"    : "time",
+        "cond"        : "SN-636f6e64-002",
+        "condDesc"    : "Time is 20:00:00",
+        "device"      : "SN-D7F3C8947867",
+        "operation"   : "turn on"
+    },
+    {
+        "serialNumber": "SN-7363656e65-05",
+        "sceneName"   : "到时间关灯",
+        "condType"    : "time",
+        "cond"        : "SN-636f6e64-001",
+        "condDesc"    : "Time is 08:00:00",
+        "device"      : "SN-D7F3C8947867",
+        "operation"   : "turn off"
     }
 ]

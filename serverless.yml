@@ -115,11 +115,32 @@ functions:
           path: addException
           method: post
           cors: true
+  queryCondTypeList:
+    handler: srv/condHandler.queryCondTypeList
+    events:
+      - http:
+          path: queryCondTypeList
+          method: get
+          cors: true
+  queryCondList:
+    handler: srv/condHandler.queryCondList
+    events:
+      - http:
+          path: queryCondList
+          method: get
+          cors: true
   querySceneBySN:
     handler: srv/sceneHandler.querySceneBySN
     events:
       - http:
           path: querySceneBySN
+          method: get
+          cors: true
+  querySceneListByType:
+    handler: srv/sceneHandler.querySceneListByType
+    events:
+      - http:
+          path: querySceneListByType
           method: get
           cors: true
   querySceneList:
@@ -135,13 +156,6 @@ functions:
       - http:
           path: addScene
           method: post
-          cors: true
-  queryCondList:
-    handler: srv/condHandler.queryCondList
-    events:
-      - http:
-          path: queryCondList
-          method: get
           cors: true
 
 resources:

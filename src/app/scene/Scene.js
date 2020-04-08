@@ -9,13 +9,16 @@ export default class Scene extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            scenes   : [],
-            curScene : '',
+            condType  : '',
+            condTypes : [],
+            scenes    : [],
+            curScene  : '',
         }
     }
 
     componentDidMount() {
         this.fetchScenes();
+        this.fetchCondTypes();
     }
 
     render() {
@@ -27,22 +30,50 @@ export default class Scene extends React.Component {
         )
     };
 
-    fetchScenes = () => {
-        request.get('/querySceneList')
+    fetchScenes = (condType) => {
+        if (!condType) {
+            request.get('/querySceneList')
+                .then(res => {
+                    if (res.scenes) {
+                        this.setState({
+                            scenes: res.scenes
+                        })
+                    }
+                });
+        } else {
+            request.get(`/querySceneListByType?condType=${condType}`)
+                .then(res => {
+                    if (res.scenes) {
+                        this.setState({
+                            scenes: res.scenes
+                        })
+                    }
+                });
+        }
+    };
+
+    fetchCondTypes = () => {
+        request.get('/queryCondTypeList')
             .then(res => {
-                if (res.scenes) {
+                if (res.condTypes) {
                     this.setState({
-                        scenes: res.scenes
+                        condTypes: res.condTypes
                     })
                 }
             });
-    };
+    }
 
     get sceneTable() {
+        let options = this.state.condTypes.map(type => {return {key: type, value: type, text: type}});
+        options.unshift({key: 'none', value: 'none', text: '-- none --'})
+
         return (
             <div>
                 <div className="scene-list">
                     <Header as='h1' floated='left'>Scenes List</Header>
+                    <Dropdown search selection onChange={this.handleChangeType}
+                              placeholder='Filter condition type' options={options}/>
+                    <Button basic onClick={this.handleFilter} style={{marginLeft: '.5em'}}>Filter</Button>
                     <Button basic color='green' floated='right' onClick={this.handleAddScene}>Add Scene</Button>
 
                     <Table celled>
@@ -50,6 +81,7 @@ export default class Scene extends React.Component {
                             <Table.Row>
                                 <Table.HeaderCell>Serial Number</Table.HeaderCell>
                                 <Table.HeaderCell>Scene Name</Table.HeaderCell>
+                                <Table.HeaderCell>Condition Type</Table.HeaderCell>
                                 <Table.HeaderCell>Condition</Table.HeaderCell>
                                 <Table.HeaderCell>Device</Table.HeaderCell>
                                 <Table.HeaderCell>Actions</Table.HeaderCell>
@@ -60,8 +92,9 @@ export default class Scene extends React.Component {
                             {this.state.scenes.map(scene =>
                                 <Table.Row>
                                     <Table.Cell collapsing>{scene.serialNumber}</Table.Cell>
-                                    <Table.Cell>{scene.sceneName}</Table.Cell>
-                                    <Table.Cell>{scene.cond}</Table.Cell>
+                                    <Table.Cell collapsing>{scene.sceneName}</Table.Cell>
+                                    <Table.Cell collapsing>{scene.condType}</Table.Cell>
+                                    <Table.Cell>{scene.condDesc}</Table.Cell>
                                     <Table.Cell>{scene.device}</Table.Cell>
                                     <Table.Cell collapsing>
                                         <Button.Group>
@@ -124,9 +157,15 @@ export default class Scene extends React.Component {
         }
     }
 
+    handleChangeType = (e, data) => {
+        this.setState({
+            condType: data.value
+        })
+    };
+
     handleFilter = () => {
-        const {type} = this.state;
-        this.fetchScenes(type === 'none' ? undefined : type);
+        const {condType} = this.state;
+        this.fetchScenes(condType === 'none' ? undefined : condType);
     };
 
     handleAddScene = () => {

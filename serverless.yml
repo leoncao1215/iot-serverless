@@ -180,6 +180,27 @@ functions:
           path: deleteScene
           method: delete
           cors: true
+  queryUserList:
+    handler: srv/userHandler.queryUserList
+    events:
+      - http:
+          path: queryUserList
+          method: get
+          cors: true
+  addUser:
+      handler: srv/userHandler.addUser
+      events:
+        - http:
+            path: addUser
+            method: post
+            cors: true
+  deleteUser:
+        handler: srv/userHandler.deleteUser
+        events:
+          - http:
+              path: deleteUser
+              method: delete
+              cors: true
 
 resources:
   Resources:

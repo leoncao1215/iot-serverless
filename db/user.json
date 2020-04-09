@@ -1,3 +1,9 @@
 [
-
+  {
+    "userId": "1",
+    "userName": "test",
+    "password": "test",
+    "disabled": false,
+    "authorized": true
+  }
 ]

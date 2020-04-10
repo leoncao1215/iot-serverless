@@ -109,7 +109,28 @@ functions:
       - http:
           path: queryExceptionList
           method: get
-          cors: true  
+          cors: true 
+  queryDeviceExceptionList:
+    handler: srv/exceptionHandler.queryDeviceExceptionList
+    events:
+      - http:
+          path: queryDeviceExceptionList
+          method: get
+          cors: true 
+  updateException:
+    handler: srv/exceptionHandler.updateException
+    events:
+      - http:
+          path: updateException
+          method: post
+          cors: true 
+  deleteException:
+    handler: srv/exceptionHandler.deleteException
+    events:
+      - http:
+          path: deleteException
+          method: delete
+          cors: true         
   addException:
     handler: srv/exceptionHandler.addException
     events:

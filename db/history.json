@@ -1,0 +1,10 @@
+[
+  {
+    "clientId": "ID-91B2F06B3F05",
+    "device"      : "SN-D7F3C8947867",
+    "start_time": "2020-3-15 6:00",
+    "end_time": "2020-3-15 8:00",
+    "total_time": "2 H",
+    "Electricity_Consumption": "100wh"
+  }
+]

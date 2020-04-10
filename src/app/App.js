@@ -15,6 +15,7 @@ import Scene from './scene/Scene'
 import './App.scss';
 import Exception from './exception/Exception';
 import User from './user/User';
+import History from "./history/History";
 
 class App extends React.Component {
   render() {
@@ -30,6 +31,7 @@ class App extends React.Component {
               <Menu.Item as={Link} to="/">Home</Menu.Item>
               <Menu.Item as={Link} to="/device">Device</Menu.Item>
               <Menu.Item as={Link} to="/scene">Scene</Menu.Item>
+              <Menu.Item as={Link} to="/history">History</Menu.Item>
               <Menu.Item as={Link} to="/exception">Exception</Menu.Item>
               <Menu.Item as={Link} to="/user">User</Menu.Item>
             </Container>
@@ -41,6 +43,9 @@ class App extends React.Component {
               </Route>
               <Route path="/scene">
                 <Scene/>
+              </Route>
+              <Route path="/history">
+                <History/>
               </Route>
               <Route path="/exception">
                 <Exception/>

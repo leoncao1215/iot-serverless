@@ -10,12 +10,13 @@ export default class ViewUser extends React.Component {
             userName     : user.userName,
             password       : user.password,
             disabled    :   user.disabled,
-            authorized  :   user.authorized
+            authorized  :   user.authorized,
+            isOnline  :   user.isOnline
         }
     }
 
     render() {
-        const {userName, password, disabled, authorized} = this.props.user;
+        const {userName, password, disabled, authorized, isOnline} = this.props.user;
         return (
             <Segment clearing className='user-detail'>
                 <Header as='h1'>Viewing User: {userName}</Header>
@@ -31,9 +32,13 @@ export default class ViewUser extends React.Component {
                     <dt>Disabled:</dt>
                     <dd>{disabled.toString()}</dd>
                 </dl>
-                <dl style={{marginBottom: '1.5em'}}>
+                <dl>
                     <dt>Authorized:</dt>
                     <dd>{authorized.toString()}</dd>
+                </dl>
+                <dl style={{marginBottom: '1.5em'}}>
+                    <dt>Online:</dt>
+                    <dd>{isOnline.toString()}</dd>
                 </dl>
                 <Button onClick={this.props.onEdit}>Edit</Button>
                 <Button floated='right' onClick={this.handleDelete} negative>Delete</Button>

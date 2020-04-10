@@ -1,7 +1,5 @@
 'use strict';
 
-const util = require('./util');
-
 /**
  * 查询所有用户
  *
@@ -45,7 +43,8 @@ module.exports.addUser = (event, context, callback) => {
             userName    : data.userName,
             password    : data.password,
             disabled    :   data.disabled,
-            authorized  :   data.authorized
+            authorized  :   data.authorized,
+            isOnline       :    data.isOnline
         }
     };
 

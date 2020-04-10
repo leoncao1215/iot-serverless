@@ -1,9 +1,26 @@
 [
   {
     "userId": "1",
-    "userName": "test",
-    "password": "test",
+    "userName": "user1",
+    "password": "user1",
     "disabled": false,
-    "authorized": true
+    "authorized": true,
+    "isOnline": false
+  },
+  {
+    "userId": "2",
+    "userName": "user2",
+    "password": "user2",
+    "disabled": false,
+    "authorized": false,
+    "isOnline": false
+  },
+  {
+    "userId": "3",
+    "userName": "user3",
+    "password": "user3",
+    "disabled": false,
+    "authorized": true,
+    "isOnline": false
   }
 ]

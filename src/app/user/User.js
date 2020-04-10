@@ -1,9 +1,10 @@
 import request from "../../util/request-util";
 import React from "react";
-import {Table, Menu, Icon, Button, Header, Segment, Select, Dropdown, Checkbox} from "semantic-ui-react";
+import {Table, Menu, Icon, Button, Header} from "semantic-ui-react";
 import AddUser from "./AddUser";
 import ViewUser from "./ViewUser";
 import EditUser from "./EditUser";
+import LogIn from "./LogIn";
 
 export default class User extends React.Component {
     constructor(props) {
@@ -11,7 +12,7 @@ export default class User extends React.Component {
         this.state = {
             users   :   [],
             action  :    '',
-            curUser :   {}
+            curUser :   {},
         }
     }
 
@@ -55,6 +56,14 @@ export default class User extends React.Component {
             }
         };
 
+        const getUserOnline = (user) => {
+            if (user.isOnline) {
+                return 'Online';
+            } else {
+                return 'Offline';
+            }
+        };
+
         return (
             <div>
                 <div className="user-list">
@@ -65,9 +74,10 @@ export default class User extends React.Component {
                         <Table.Header>
                             <Table.Row>
                                 <Table.HeaderCell>User Name</Table.HeaderCell>
-                                <Table.HeaderCell>Password</Table.HeaderCell>
                                 <Table.HeaderCell>Status</Table.HeaderCell>
                                 <Table.HeaderCell>Authority</Table.HeaderCell>
+                                <Table.HeaderCell>Online</Table.HeaderCell>
+                                <Table.HeaderCell>Log in</Table.HeaderCell>
                                 <Table.HeaderCell>Actions</Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
@@ -76,14 +86,26 @@ export default class User extends React.Component {
                             {this.state.users.map(user =>
                                 <Table.Row>
                                     <Table.Cell collapsing>{user.userName}</Table.Cell>
-                                    <Table.Cell collapsing>{user.password}</Table.Cell>
                                     <Table.Cell collapsing>{getUserStatus(user)}</Table.Cell>
                                     <Table.Cell collapsing>{getUserAuthority(user)}</Table.Cell>
+                                    <Table.Cell collapsing>{getUserOnline(user)}</Table.Cell>
+                                    <Table.Cell collapsing>
+                                        <Button
+                                            basic
+                                            onClick={() => this.handleLogIn(user, user.isOnline ? 'logOut' : 'logIn')}
+                                        >
+                                            Log {user.isOnline ? 'out' : 'in'}
+                                        </Button>
+                                    </Table.Cell>
                                     <Table.Cell collapsing>
                                         <Button.Group>
-                                            <Button positive onClick={() => this.handleViewUser(user)}>View</Button>
+                                            <Button
+                                                disabled={!user.isOnline}
+                                                positive onClick={() => this.handleViewUser(user)}>View</Button>
                                             <Button.Or/>
-                                            <Button onClick={() => this.handleEditUser(user)}>Edit</Button>
+                                            <Button
+                                                disabled={!user.isOnline}
+                                                onClick={() => this.handleEditUser(user)}>Edit</Button>
                                         </Button.Group>
                                     </Table.Cell>
                                 </Table.Row>
@@ -136,6 +158,13 @@ export default class User extends React.Component {
                         onCancel={() => this.handleViewUser()}
                         onDelete={this.handleDelete}/>
                 );
+            case 'login':
+                return (
+                    <LogIn
+                        user={curUser}
+                        onSuccess={this.handleSuccess}
+                        onCancel={this.handleCancel}/>
+                );
             default:
                 return undefined;
         }
@@ -173,6 +202,18 @@ export default class User extends React.Component {
         }
     };
 
+    handleLogIn = (user, action) => {
+        if(action === 'logIn'){
+            this.setState({
+                action: 'login',
+                curUser: user
+            });
+        }
+        else{
+            this.handleLogOut(user);
+        }
+    };
+
     handleCancel = () => {
         this.setState({
             action: ''
@@ -190,5 +231,23 @@ export default class User extends React.Component {
             .then(res => {
                 this.handleSuccess();
             })
+    };
+
+    handleLogOut = (user) => {
+        user.isOnline = !user.isOnline;
+        request.post('/addUser', user)
+            .then(res => {
+                const code = res.code;
+                if (code !== 200) {
+                    console.log(res.message);
+                    this.setState({message: 'error'});
+                } else {
+                    this.setState({message: 'success'});
+                    setTimeout(() => {
+                        this.setState({message: null});
+                        this.handleSuccess();
+                    }, 3000);
+                }
+            });
     };
 }

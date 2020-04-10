@@ -10,6 +10,7 @@ export default class AddUser extends React.Component {
             password       : '',
             disabled    :   false,
             authorized  :   false,
+            isOnline  :       false,
             userNameError   :   null,
             passwordError   :   null,
             message          : null,
@@ -78,7 +79,7 @@ export default class AddUser extends React.Component {
     };
 
     handleSubmit = () => {
-        const {userName, password, disabled, authorized} = this.state;
+        const {userName, password, disabled, authorized, isOnline} = this.state;
         let hasError                                     = false;
         if (!userName) {
             hasError = true;
@@ -94,7 +95,7 @@ export default class AddUser extends React.Component {
         }
         if (!hasError) {
             const user        = {
-                userName, password, disabled, authorized
+                userName, password, disabled, authorized, isOnline
             };
             const handleSuccess = this.props.onSuccess;
             console.log(user);

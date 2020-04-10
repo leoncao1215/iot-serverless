@@ -2,7 +2,7 @@ import React from "react";
 import {Button, Form, Header, Message, Segment} from "semantic-ui-react";
 import request from "../../util/request-util";
 
-export default class EditUser extends React.Component {
+export default class LogIn extends React.Component {
     constructor(props) {
         super(props);
         const {user} = this.props;
@@ -13,9 +13,9 @@ export default class EditUser extends React.Component {
             disabled    :   user.disabled,
             authorized  :   user.authorized,
             isOnline  :   user.isOnline,
-            userNameError   :   null,
             passwordError   :   null,
             message          : null,
+            inputPassword   :   ''
         }
     }
 
@@ -26,15 +26,15 @@ export default class EditUser extends React.Component {
                     <Message
                         success
                         header='Success'
-                        content="You've successfully update user info. User list will be refreshed in 3 seconds."
+                        content="You've successfully log in. User list will be refreshed in 3 seconds."
                     />
                 );
             case 'error':
                 return (
                     <Message
                         error
-                        header='Fail to update user'
-                        content='Please check your user info and try again later.'
+                        header='Fail to log in'
+                        content='Please check your password and try again later.'
                     />
                 );
             default:
@@ -59,80 +59,49 @@ export default class EditUser extends React.Component {
         return (
             <Segment clearing>
                 {this.message}
-                <Header as='h1'>Editing User: {this.state.userName}</Header>
+                <Header as='h1'>Log In: {this.state.userName}</Header>
                 <Form>
-                    <Form.Field required>
-                        <label>User Name</label>
-                        <Form.Input
-                            placeholder='User Name'
-                            name='userName'
-                            value={this.state.userName}
-                            onChange={this.handleChange}
-                            error={this.state.userNameError}/>
-                    </Form.Field>
                     <Form.Field required>
                         <label>Password</label>
                         <Form.Input
+                            type='password'
                             placeholder='Password'
-                            name='password'
-                            value={this.state.password}
+                            name='inputPassword'
+                            value={this.state.inputPassword}
                             onChange={this.handleChange}
                             error={this.state.passwordError}/>
                     </Form.Field>
-                    <Form.Field>
-                        <Form.Checkbox
-                            toggle
-                            label='Disable user'
-                            name='disabled'
-                            checked={this.state.disabled}
-                            onChange={this.handleChange}/>
-                    </Form.Field>
-                    <Form.Field>
-                        <Form.Checkbox
-                            toggle
-                            label='Authorize user'
-                            name='authorized'
-                            checked={this.state.authorized}
-                            onChange={this.handleChange}/>
-                    </Form.Field>
                     <Button.Group floated='left'>
-                        <Button onClick={this.handleSubmit} positive>Submit</Button>
+                        <Button onClick={this.handleLogIn} positive>Log in</Button>
                         <Button.Or/>
                         <Button onClick={this.props.onCancel}>Cancel</Button>
                     </Button.Group>
-                    <Button floated='right' onClick={this.handleDelete} negative>Delete</Button>
                 </Form>
             </Segment>
         );
     }
 
     handleChange = (e, {name, value}) => {
-        if (name === 'disabled') {
-            this.setState({disabled: !this.state.disabled})
-        } else if (name === 'authorized'){
-            this.setState({authorized: !this.state.authorized})
-        }
-        else {
-            this.setState({[name]: value})
-        }
+        this.setState({isOnline: true});
+        this.setState({[name]: value})
     };
 
-    handleSubmit = () => {
-        const {userId, userName, password, disabled, authorized, isOnline} = this.state;
+    handleLogIn = () => {
+        const {password, inputPassword} = this.state;
         let hasError                                     = false;
-        if (!userName) {
-            hasError = true;
-            this.setState({userNameError: 'Please Input User Name'})
-        } else {
-            this.setState({userNameError: null})
-        }
-        if (!password) {
+        if (!inputPassword) {
             hasError = true;
             this.setState({passwordError: 'Please Input Password'})
-        } else {
+        } else if(!(password === inputPassword)){
+            hasError = true;
+            this.setState({passwordError: 'Wrong Password'})
+        }
+        else {
             this.setState({passwordError: null})
         }
         if (!hasError) {
+            this.handleOnline();
+            const {userId, userName, disabled, authorized, isOnline} = this.state;
             const user        = {
                 userId, userName, password, disabled, authorized, isOnline
             };
@@ -153,7 +122,10 @@ export default class EditUser extends React.Component {
                     }
                 });
         }
-    }
+    };
 
-    handleDelete = () => this.props.onDelete(this.props.user);
+    handleOnline = () => {
+        this.setState({isOnline: !this.state.isOnline});
+    };
+
 }

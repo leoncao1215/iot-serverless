@@ -27,11 +27,11 @@ class App extends React.Component {
                 <Image size='mini' src='logo192.png' style={{marginRight: '1.5em'}}/>
                 IoT-Serverless
               </Menu.Item>
-              <Menu.Item as='a'><Link to="/">Home</Link></Menu.Item>
-              <Menu.Item as='a'><Link to="/device">Device</Link></Menu.Item>
-              <Menu.Item as='a'><Link to="/scene">Scene</Link></Menu.Item>
-              <Menu.Item as='a'><Link to="/exception">Exception</Link></Menu.Item>
-              <Menu.Item as='a'><Link to="/user">User</Link></Menu.Item>
+              <Menu.Item as={Link} to="/">Home</Menu.Item>
+              <Menu.Item as={Link} to="/device">Device</Menu.Item>
+              <Menu.Item as={Link} to="/scene">Scene</Menu.Item>
+              <Menu.Item as={Link} to="/exception">Exception</Menu.Item>
+              <Menu.Item as={Link} to="/user">User</Menu.Item>
             </Container>
           </Menu>
           <Container style={{minHeight: '85vh'}}>

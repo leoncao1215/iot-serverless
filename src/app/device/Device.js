@@ -97,7 +97,7 @@ export default class Device extends React.Component {
 
             <Table.Body>
               {this.state.devices.map(device =>
-                <Table.Row>
+                <Table.Row key={device.serialNumber}>
                   <Table.Cell collapsing>{device.serialNumber}</Table.Cell>
                   <Table.Cell collapsing>{device.type}</Table.Cell>
                   <Table.Cell>{device.deviceName}</Table.Cell>

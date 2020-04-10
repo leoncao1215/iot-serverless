@@ -1,6 +1,6 @@
 import request from "../../util/request-util";
 import React from "react";
-import {Table, Menu, Icon, Button, Header, Segment, Select, Dropdown, Checkbox} from "semantic-ui-react";
+import {Table, Menu, Icon, Button, Header, Dropdown} from "semantic-ui-react";
 import AddDevice from "./AddDevice";
 import EditDevice from "./EditDevice";
 import ViewDevice from "./ViewDevice";

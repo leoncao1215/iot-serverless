@@ -1,10 +1,9 @@
 import request from "../../util/request-util";
 import React from "react";
-import {Table, Menu, Icon, Button, Header, Segment, Select, Dropdown, Checkbox} from "semantic-ui-react";
+import {Table, Menu, Icon, Button, Header, Dropdown} from "semantic-ui-react";
 import AddScene from "./AddScene";
 import ViewScene from "./ViewScene";
 import EditScene from "./EditScene";
-import ViewDevice from "../device/ViewDevice";
 
 export default class Scene extends React.Component {
     constructor(props) {
@@ -92,7 +91,7 @@ export default class Scene extends React.Component {
 
                         <Table.Body>
                             {this.state.scenes.map(scene =>
-                                <Table.Row>
+                                <Table.Row key={scene.serialNumber}>
                                     <Table.Cell collapsing>{scene.serialNumber}</Table.Cell>
                                     <Table.Cell collapsing>{scene.sceneName}</Table.Cell>
                                     <Table.Cell collapsing>{scene.condType}</Table.Cell>

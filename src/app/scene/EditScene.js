@@ -57,7 +57,8 @@ export default class EditScene extends React.Component {
                         key: cond.serialNumber,
                         value: cond.serialNumber,
                         text: cond.desc,
-                    })
+                    });
+                    return null;
                 });
                 this.setState({
                     condTypeOptions : condTypeOptions,
@@ -78,7 +79,8 @@ export default class EditScene extends React.Component {
                         key: device.serialNumber,
                         value: device.serialNumber,
                         text: device.serialNumber + ' ' + device.deviceName,
-                    })
+                    });
+                    return null;
                 });
                 this.setState({
                     deviceOptions : deviceOptions,

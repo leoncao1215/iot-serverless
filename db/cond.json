@@ -208,6 +208,38 @@
         "minute": 0
     },
     {
+        "serialNumber": "SN-636f6e64-01930",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 19:30",
+        "hour": 19,
+        "minute": 30
+    },
+    {
+        "serialNumber": "SN-636f6e64-01945",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 19:45",
+        "hour": 19,
+        "minute": 45
+    },
+    {
+        "serialNumber": "SN-636f6e64-01950",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 19:50",
+        "hour": 19,
+        "minute": 50
+    },
+    {
+        "serialNumber": "SN-636f6e64-01955",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 19:55",
+        "hour": 19,
+        "minute": 55
+    },
+    {
         "serialNumber": "SN-636f6e64-02000",
         "condName": "Time Trigger",
         "type": "time",
@@ -285,14 +317,14 @@
         "serialNumber": "SN-636f6e64-205",
         "condName": "Thermal Sensor Trigger",
         "type": "temperature",
-        "desc": "Temperature is about 5 Centigrade",
+        "desc": "Temperature is about 5°C",
         "temperature": 5
     },
     {
         "serialNumber": "SN-636f6e64-230",
         "condName": "Thermal Sensor Trigger",
         "type": "temperature",
-        "desc": "Temperature is about 30 Centigrade",
+        "desc": "Temperature is about 30°C",
         "temperature": 30
     }
 ]

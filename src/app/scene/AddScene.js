@@ -95,7 +95,7 @@ export default class AddScene extends React.Component {
                     devices[device.serialNumber] = device;
                     deviceOptions.push({
                         key: device.serialNumber,
-                        value: device.serialNumber,
+                        value: device.serialNumber + '_' + device.deviceName,
                         text: device.serialNumber + ' ' + device.deviceName,
                     });
                     return null;
@@ -229,7 +229,8 @@ export default class AddScene extends React.Component {
     };
 
     handleSubmit = () => {
-        const {sceneName, condType, cond, device, operation, isUsing} = this.state;
+        const {sceneName, condType, cond, operation, isUsing} = this.state;
+        const deviceT = this.state.device;
         let hasError = false;
 
         if (!sceneName) {
@@ -250,7 +251,7 @@ export default class AddScene extends React.Component {
         } else {
             this.setState({condError: null})
         }
-        if (!device) {
+        if (!deviceT) {
             hasError = true;
             this.setState({deviceError: 'Please Select Device'})
         } else {
@@ -264,8 +265,9 @@ export default class AddScene extends React.Component {
         }
         if (!hasError) {
             let condDesc = this.state.conds[cond].desc;
+            const [device, deviceName] = deviceT.split('_');
             const scene  = {
-                sceneName, condType, cond, condDesc, device, operation, isUsing
+                sceneName, condType, cond, condDesc, device, deviceName, operation, isUsing
             };
             const handleSuccess = this.props.onSuccess;
             console.log(scene);

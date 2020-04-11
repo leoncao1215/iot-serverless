@@ -6,8 +6,9 @@
         "cond"        : "SN-636f6e64-02000",
         "condDesc"    : "Time is 20:00",
         "device"      : "SN-D7F3C8947867",
+        "deviceName"  : "Bedroom light",
         "operation"   : "turn on",
-        "isUsing"       : true
+        "isUsing"     : true
     },
     {
         "serialNumber": "SN-7363656e65-002",
@@ -16,8 +17,9 @@
         "cond"        : "SN-636f6e64-00800",
         "condDesc"    : "Time is 08:00",
         "device"      : "SN-D7F3C8947867",
+        "deviceName"  : "Bedroom light",
         "operation"   : "turn off",
-        "isUsing"       : true
+        "isUsing"     : true
     },
 
 
@@ -37,8 +39,9 @@
         "cond"        : "SN-636f6e64-1010",
         "condDesc"    : "Brightness is about 10",
         "device"      : "SN-D7F3C8947867",
+        "deviceName"  : "Bedroom light",
         "operation"   : "turn on",
-        "isUsing"       : true
+        "isUsing"     : true
     },
     {
         "serialNumber": "SN-7363656e65-102",
@@ -47,8 +50,9 @@
         "cond"        : "SN-636f6e64-1080",
         "condDesc"    : "Brightness is about 80",
         "device"      : "SN-D7F3C8947867",
+        "deviceName"  : "Bedroom light",
         "operation"   : "turn off",
-        "isUsing"       : true
+        "isUsing"     : true
     },
 
 
@@ -62,12 +66,13 @@
 
     {
         "serialNumber": "SN-7363656e65-201",
-        "sceneName"   : "温度低打开浴霸",
+        "sceneName"   : "低温开浴霸",
         "condType"    : "temperature",
         "cond"        : "SN-636f6e64-205",
-        "condDesc"    : "Temperature is about 5 Centigrade",
+        "condDesc"    : "Temperature is about 5°C",
         "device"      : "SN-D7F3C8947869",
+        "deviceName"  : "Bathroom light",
         "operation"   : "turn on",
-        "isUsing"       : true
+        "isUsing"     : true
     }
 ]

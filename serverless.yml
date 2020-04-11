@@ -245,6 +245,13 @@ functions:
               path: deleteHistory
               method: delete
               cors: true
+  queryHistoryByDate:
+    handler: srv/historyHandler.queryHistoryByDate
+    events:
+      - http:
+          path: queryHistoryByDate
+          method: get
+          cors: true
 
 resources:
   Resources:

@@ -8,35 +8,81 @@ export default class History extends React.Component {
         this.state = {
             historyList:"",
             devices:"",
+            dates:"",
+
             curDevice:"",
+            curDate:"",
+
+            sumDate:"",
             sumDevice:"",
             sumTime:"",
-            sumCost:""
+            sumCost:"",
+
+            deviceFilter:true,
         }
     }
 
     componentDidMount() {
-        this.fetchHistory();
+        this.fetchHistoryByDevice();
     }
 
-    fetchHistory= (device) => {
-        if (!device) {
+    fetchHistoryByDevice(){
+        if (this.state.curDevice===""||this.state.curDevice==="none") {
             request.get('/queryHistoryList')
                 .then(res => {
                     if (res.historyList) {
-                        let set = new Set();
+                        let deviceSet = new Set();
+                        let dateSet = new Set();
+
                         res.historyList.forEach((his)=>{
-                            set.add(his.device)
-                        })
+                            deviceSet.add(his.device)
+                            dateSet.add(his.day)
+                        });
+
                         this.setState({
                             historyList: res.historyList,
-                            devices:Array.from(set),
+                            devices:Array.from(deviceSet),
+                            dates:Array.from(dateSet)
                         })
                         this.CalTimeAndCost(res.historyList)
                     }
                 });
         } else {
-            request.get(`/queryHistoryListByDevice?device=${device}`)
+            request.get(`/queryHistoryListByDevice?device=${this.state.curDevice}`)
+                .then(res => {
+                    if (res.historyList) {
+                        this.setState({
+                            historyList: res.historyList
+                        })
+                        this.CalTimeAndCost(res.historyList)
+                    }
+                });
+        }
+    }
+
+    fetchHistoryByDate(){
+        if (this.state.curDate===""||this.state.curDate==="none") {
+            request.get('/queryHistoryList')
+                .then(res => {
+                    if (res.historyList) {
+                        let deviceSet = new Set();
+                        let dateSet = new Set();
+
+                        res.historyList.forEach((his)=>{
+                            deviceSet.add(his.device)
+                            dateSet.add(his.day)
+                        });
+
+                        this.setState({
+                            historyList: res.historyList,
+                            devices:Array.from(deviceSet),
+                            dates:Array.from(dateSet)
+                        })
+                        this.CalTimeAndCost(res.historyList)
+                    }
+                });
+        } else {
+            request.get(`/queryHistoryByDate?date=${this.state.curDate}`)
                 .then(res => {
                     if (res.historyList) {
                         this.setState({
@@ -53,12 +99,27 @@ export default class History extends React.Component {
             curDevice:data.value
         })
     }
-    handleFilter = () => {
+    handleDeviceFilter = () => {
         const {curDevice} = this.state;
         this.setState({
-            sumDevice:curDevice
+            sumDevice:curDevice,
+            deviceFilter:true,
         })
-        this.fetchHistory(curDevice === 'none' ? undefined : curDevice);
+        this.fetchHistoryByDevice();
+    }
+
+    handleChangeDate= (e, data) => {
+        this.setState({
+            curDate:data.value
+        })
+    }
+    handleDateFilter = () => {
+        const {curDate} = this.state;
+        this.setState({
+            sumDate:curDate,
+            deviceFilter:false,
+        })
+        this.fetchHistoryByDate();
     }
 
     onDelete(id){
@@ -83,6 +144,7 @@ export default class History extends React.Component {
         })
     }
 
+
     render() {
         if(this.state.historyList===""){
             return <Loader/>
@@ -95,17 +157,25 @@ export default class History extends React.Component {
         )
     }
 
+
     get historyTable() {
-        let options = this.state.devices.map(device => {return {key: device, value: device, text: device}});
-        options.unshift({key: 'none', value: 'none', text: '-- none --'})
+        let DeviceOptions = this.state.devices.map(device => {return {key: device, value: device, text: device}});
+        DeviceOptions.unshift({key: 'none', value: 'none', text: '-- none --'})
+
+        let DateOptions = this.state.dates.map(date => {return {key: date, value: date, text: date}});
+        DateOptions.unshift({key: 'none', value: 'none', text: '-- none --'})
 
         return (
             <div>
                 <div className="history-list">
                     <Header as='h1' floated='left'>History List</Header>
                     <Dropdown search selection onChange={this.handleChangeDevice}
-                              placeholder='Filter device' options={options}/>
-                    <Button basic onClick={this.handleFilter} style={{marginLeft: '.5em'}}>Filter</Button>
+                              placeholder='Filter device' options={DeviceOptions}/>
+                    <Button basic onClick={this.handleDeviceFilter} style={{marginLeft: '.5em'}}>Filter</Button>
+
+                    <Dropdown search selection onChange={this.handleChangeDate}
+                              placeholder='Filter date' options={DateOptions}/>
+                    <Button basic onClick={this.handleDateFilter} style={{marginLeft: '.5em'}}>Filter</Button>
 
                     <Table celled>
                         <Table.Header>
@@ -149,24 +219,47 @@ export default class History extends React.Component {
                         </Table.Footer>
                     </Table>
                 </div>
+                {
+                    this.state.deviceFilter?
+                        <div>
+                            <Header as='h3' floated='left'>History Summary</Header>
+                            <Table celled>
+                                <Table.Header>
+                                    <Table.Row>
+                                        <Table.HeaderCell>Device</Table.HeaderCell>
+                                        <Table.HeaderCell>Duration_Sum</Table.HeaderCell>
+                                        <Table.HeaderCell>Consumption_Sum</Table.HeaderCell>
+                                    </Table.Row>
+                                </Table.Header>
+                                <Table.Body>
+                                    <Table.Cell collapsing>{this.state.sumDevice===""||this.state.sumDevice==="none"?
+                                        "All":this.state.sumDevice}</Table.Cell>
+                                    <Table.Cell collapsing>{this.state.sumTime} H</Table.Cell>
+                                    <Table.Cell collapsing>{this.state.sumCost} wh</Table.Cell>
+                                </Table.Body>
+                            </Table>
+                        </div>
+                        :
+                        <div>
+                            <Header as='h3' floated='left'>History Summary</Header>
+                            <Table celled>
+                                <Table.Header>
+                                    <Table.Row>
+                                        <Table.HeaderCell>Date</Table.HeaderCell>
+                                        <Table.HeaderCell>Duration_Sum</Table.HeaderCell>
+                                        <Table.HeaderCell>Consumption_Sum</Table.HeaderCell>
+                                    </Table.Row>
+                                </Table.Header>
+                                <Table.Body>
+                                    <Table.Cell collapsing>{this.state.sumDate===""||this.state.sumDate==="none"?
+                                        "All":this.state.sumDate}</Table.Cell>
+                                    <Table.Cell collapsing>{this.state.sumTime} H</Table.Cell>
+                                    <Table.Cell collapsing>{this.state.sumCost} wh</Table.Cell>
+                                </Table.Body>
+                            </Table>
+                        </div>
+                }
 
-                <div>
-                    <Header as='h3' floated='left'>History Summary</Header>
-                    <Table celled>
-                        <Table.Header>
-                            <Table.Row>
-                                <Table.HeaderCell>Device</Table.HeaderCell>
-                                <Table.HeaderCell>Duration_Sum</Table.HeaderCell>
-                                <Table.HeaderCell>Consumption_Sum</Table.HeaderCell>
-                            </Table.Row>
-                        </Table.Header>
-                        <Table.Body>
-                            <Table.Cell collapsing>{this.state.sumDevice===""?"All":this.state.sumDevice}</Table.Cell>
-                            <Table.Cell collapsing>{this.state.sumTime} H</Table.Cell>
-                            <Table.Cell collapsing>{this.state.sumCost} wh</Table.Cell>
-                        </Table.Body>
-                    </Table>
-                </div>
             </div>
         )
     }

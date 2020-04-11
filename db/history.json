@@ -1,10 +1,50 @@
 [
   {
-    "clientId": "ID-91B2F06B3F05",
+    "historyId" : "1",
     "device"      : "SN-D7F3C8947867",
     "start_time": "2020-3-15 6:00",
     "end_time": "2020-3-15 8:00",
-    "total_time": "2 H",
-    "Electricity_Consumption": "100wh"
+    "total_time": "2",
+    "Electricity_Consumption": "100"
+  },
+  {
+    "historyId" : "2",
+    "device"      : "SN-D7F3C8947867",
+    "start_time": "2020-3-16 6:00",
+    "end_time": "2020-3-16 8:00",
+    "total_time": "2",
+    "Electricity_Consumption": "100"
+  },
+  {
+    "historyId" : "3",
+    "device"      : "SN-636f6e64-201",
+    "start_time": "2020-3-15 19:00",
+    "end_time": "2020-3-15 20:00",
+    "total_time": "1",
+    "Electricity_Consumption": "200"
+  },
+  {
+    "historyId" : "4",
+    "device"      : "SN-636f6e64-201",
+    "start_time": "2020-3-15 22:00",
+    "end_time": "2020-3-15 23:00",
+    "total_time": "1",
+    "Electricity_Consumption": "200"
+  },
+  {
+    "historyId" : "5",
+    "device"      : "SN-636f6e64-201",
+    "start_time": "2020-3-16 13:00",
+    "end_time": "2020-3-16 14:00",
+    "total_time": "1",
+    "Electricity_Consumption": "200"
+  },
+  {
+    "historyId" : "6",
+    "device"      : "SN-D7F3C8947870",
+    "start_time": "2020-3-15 6:00",
+    "end_time": "2020-3-15 12:00",
+    "total_time": "6",
+    "Electricity_Consumption": "500"
   }
 ]

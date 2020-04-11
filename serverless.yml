@@ -27,6 +27,8 @@ custom:
             sources: [./db/scene.json]
           - table: user
             sources: [./db/user.json]
+          - table: history
+            sources: [./db/history.json]
 
 provider:
   name: aws
@@ -222,6 +224,27 @@ functions:
               path: deleteUser
               method: delete
               cors: true
+  queryHistoryList:
+        handler: srv/historyHandler.queryHistoryList
+        events:
+          - http:
+              path: queryHistoryList
+              method: get
+              cors: true
+  queryHistoryListByDevice:
+        handler: srv/historyHandler.queryHistoryListByDevice
+        events:
+          - http:
+              path: queryHistoryListByDevice
+              method: get
+              cors: true
+  deleteHistory:
+        handler: srv/historyHandler.deleteHistory
+        events:
+          - http:
+              path: deleteHistory
+              method: delete
+              cors: true
 
 resources:
   Resources:
@@ -295,3 +318,17 @@ resources:
               ReadCapacityUnits: 1
               WriteCapacityUnits: 1
             TableName: user
+    HistoryDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: historyId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: historyId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: history

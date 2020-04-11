@@ -13,12 +13,13 @@ export default class ViewScene extends React.Component {
             cond        : scene.cond,
             condDesc    : scene.condDesc,
             device      : scene.device,
+            deviceName  : scene.deviceName,
             operation   : scene.operation,
         }
     }
 
     render() {
-        const {serialNumber, sceneName, condType, condDesc, device, operation} = this.props.scene;
+        const {serialNumber, sceneName, condType, condDesc, device, deviceName, operation} = this.props.scene;
         return (
             <Segment clearing className='scene-detail'>
                 <Header as='h1'>Viewing Scene: {sceneName}</Header>
@@ -41,6 +42,10 @@ export default class ViewScene extends React.Component {
                 <dl>
                     <dt>Device:</dt>
                     <dd>{device}</dd>
+                </dl>
+                <dl>
+                    <dt>DeviceName:</dt>
+                    <dd>{deviceName}</dd>
                 </dl>
                 <dl style={{marginBottom: '1.5em'}}>
                     <dt>Operation:</dt>

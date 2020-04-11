@@ -18,6 +18,7 @@ export default class EditScene extends React.Component {
             cond             : scene.cond,
             condDesc         : scene.condDesc,
             device           : scene.device,
+            deviceName       : scene.deviceName,
             operation        : scene.operation,
             isUsing          : scene.isUsing,
 
@@ -91,7 +92,7 @@ export default class EditScene extends React.Component {
                     devices[device.serialNumber] = device;
                     deviceOptions.push({
                         key: device.serialNumber,
-                        value: device.serialNumber,
+                        value: device.serialNumber + '_' + device.deviceName,
                         text: device.serialNumber + ' ' + device.deviceName,
                     });
                     return null;
@@ -142,6 +143,7 @@ export default class EditScene extends React.Component {
                 cond        : this.props.scene.cond,
                 condDesc    : this.props.scene.condDesc,
                 device      : this.props.scene.device,
+                deviceName  : this.props.scene.deviceName,
                 operation   : this.props.scene.operation,
             })
         }
@@ -193,7 +195,7 @@ export default class EditScene extends React.Component {
                             placeholder='Device'
                             options={this.state.deviceOptions}
                             name='device'
-                            value={this.state.device}
+                            value={this.state.device + '_' + this.state.deviceName}
                             onChange={this.handleChange}
                             error={this.state.deviceError}
                         />
@@ -238,7 +240,8 @@ export default class EditScene extends React.Component {
     };
 
     handleSubmit = () => {
-        const {serialNumber, sceneName, condType, cond, condDesc, device, operation, isUsing} = this.state;
+        const {serialNumber, sceneName, condType, cond, condDesc, operation, isUsing} = this.state;
+        const deviceT = this.state.device;
         let hasError = false;
         if (!sceneName) {
             hasError = true;
@@ -258,7 +261,7 @@ export default class EditScene extends React.Component {
         } else {
             this.setState({condError: null})
         }
-        if (!device) {
+        if (!deviceT) {
             hasError = true;
             this.setState({deviceError: 'Please Select Device'})
         } else {
@@ -271,8 +274,9 @@ export default class EditScene extends React.Component {
             this.setState({operationError: null})
         }
         if (!hasError) {
+            const [device, deviceName] = deviceT.split('_');
             const scene = {
-                serialNumber, sceneName, condType, cond, condDesc, device, operation, isUsing
+                serialNumber, sceneName, condType, cond, condDesc, device, deviceName, operation, isUsing
             };
             const handleSuccess = this.props.onSuccess;
             console.log(scene);

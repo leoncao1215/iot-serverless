@@ -54,6 +54,7 @@ module.exports.addScene = (event, context, callback) => {
             cond        : body.cond,
             condDesc    : body.condDesc,
             device      : body.device,
+            deviceName  : body.deviceName,
             operation   : body.operation,
             isUsing     : body.isUsing
         }
@@ -209,9 +210,7 @@ module.exports.updateScene = (event, context, callback) => {
                 code   : 200,
                 message: `Successfully update scene: ${body.serialNumber}.`
             });
-            if (body.condType === CondType.time) {
-                SceneCheck(Control.update);
-            }
+            if (body.condType === CondType.time) { SceneCheck(Control.update); }
         }
         callback(null, response);
     });
@@ -334,28 +333,20 @@ async function countScene(typeT) {
 
 
 async function SceneCheck(control, sceneSN, isUsing) {
-    if (conds === null || conds.length === 0) {
-        conds = await condHandler.queryCondListByTypeInner('time');
-        conds.forEach(cond => cond.time = cond.hour * 100 + cond.minute);
-    }
+    // if (conds === null || conds.length === 0) {
+    //     conds = await condHandler.queryCondListByTypeInner('time');
+    //     conds.forEach(cond => cond.time = cond.hour * 100 + cond.minute);
+    // }
 
     if (scenes === null ||  scenes.length === 0 || control === Control.update) {
         scenes = await module.exports.querySceneListByTypeInner('time');
-        scenes.forEach(scene => {
-            for (let i = 0; i < conds.length; i++) {
-                const cond = conds[i];
-                if (scene.cond === cond.SerialNumber) {
-                    scene.time = cond.time;
-                    break;
-                }
-            }
-        })
+        scenes.forEach(scene => scene.time = parseInt(scene.cond.slice(-4)));
         scenes = scenes.sort((a, b) => a.time - b.time);
     }
 
     if (trigger === null) {
         trigger = setInterval(() => {
-            console.log('Trigger is searching trigger scene every 15s ...')
+            console.log(`${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}  Trigger is searching trigger scene every 15s ...`)
             if (scenes.length > 0) {
                 const now = new Date().getHours() * 100 + new Date().getMinutes();
                 scenes.forEach(scene => {

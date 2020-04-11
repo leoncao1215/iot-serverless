@@ -86,6 +86,7 @@ export default class Scene extends React.Component {
                                 <Table.HeaderCell>Condition Type</Table.HeaderCell>
                                 <Table.HeaderCell>Condition</Table.HeaderCell>
                                 <Table.HeaderCell>Device</Table.HeaderCell>
+                                <Table.HeaderCell>Control</Table.HeaderCell>
                                 <Table.HeaderCell>State</Table.HeaderCell>
                                 <Table.HeaderCell>Actions</Table.HeaderCell>
                             </Table.Row>
@@ -98,7 +99,8 @@ export default class Scene extends React.Component {
                                     <Table.Cell collapsing>{scene.sceneName}</Table.Cell>
                                     <Table.Cell collapsing>{scene.condType}</Table.Cell>
                                     <Table.Cell>{scene.condDesc}</Table.Cell>
-                                    <Table.Cell>{scene.device}</Table.Cell>
+                                    <Table.Cell>{scene.deviceName}</Table.Cell>
+                                    <Table.Cell collapsing>{scene.operation}</Table.Cell>
                                     <Table.Cell collapsing>
                                         <Button
                                             basic
@@ -122,7 +124,7 @@ export default class Scene extends React.Component {
 
                         <Table.Footer>
                             <Table.Row>
-                                <Table.HeaderCell colSpan='7'>
+                                <Table.HeaderCell colSpan='8'>
                                     <Menu floated='right' pagination>
                                         <Menu.Item as='a' icon>
                                             <Icon name='chevron left'/>

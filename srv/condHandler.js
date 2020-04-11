@@ -1,5 +1,7 @@
 'use strict';
 
+const dynamodb = require('./dynamodb');
+
 /**
  * 查询所有触发条件
  *
@@ -8,8 +10,6 @@
  * @param callback
  */
 module.exports.queryCondList = (event, context, callback) => {
-    const dynamodb = require('./dynamodb');
-
     const params = {
         TableName: 'cond',
     };
@@ -26,7 +26,6 @@ module.exports.queryCondList = (event, context, callback) => {
     });
 };
 
-
 /**
  * 查询所有触发条件类型
  *
@@ -35,8 +34,6 @@ module.exports.queryCondList = (event, context, callback) => {
  * @param callback
  */
 module.exports.queryCondTypeList = (event, context, callback) => {
-    const dynamodb = require('./dynamodb');
-
     const params = {
         TableName: 'cond',
     };
@@ -54,4 +51,34 @@ module.exports.queryCondTypeList = (event, context, callback) => {
         }
         callback(null, response);
     });
+};
+
+
+
+
+
+
+
+
+
+
+/**
+ * 通过 Type 查询所有触发条件
+ *
+ * @param type
+ */
+module.exports.queryCondListByTypeInner = async (type) => {
+    const params = {
+        TableName: 'cond',
+        FilterExpression: '#TYPE = :TYPE',
+        ExpressionAttributeNames: {
+            "#TYPE": "type",
+        },
+        ExpressionAttributeValues: {
+            ':TYPE': type
+        }
+    };
+    let res = await dynamodb.scan(params).promise();
+    if ("Items" in res) { return res.Items; }
+    else { return null; }
 };

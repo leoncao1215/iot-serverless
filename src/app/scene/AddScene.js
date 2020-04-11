@@ -23,7 +23,6 @@ export default class AddScene extends React.Component {
             operation        : '',
             isUsing          : false,
 
-            serialNumberError: null,
             sceneNameError   : null,
             condTypeError    : null,
             condError        : null,
@@ -56,13 +55,29 @@ export default class AddScene extends React.Component {
                         });
                         condOptions[cond.type] = [];
                     }
-                    condOptions[cond.type].push({
-                        key: cond.serialNumber,
-                        value: cond.serialNumber,
-                        text: cond.desc,
-                    });
+                    if (cond.type === 'time'){
+                        condOptions[cond.type].push({
+                            key: cond.hour * 100 + cond.minute,
+                            value: cond.serialNumber,
+                            text: cond.desc,
+                        });
+                    } else if (cond.type === 'brightness'){
+                        condOptions[cond.type].push({
+                            key: cond.brightness,
+                            value: cond.serialNumber,
+                            text: cond.desc,
+                        });
+                    } else if (cond.type === 'temperature'){
+                        condOptions[cond.type].push({
+                            key: cond.temperature,
+                            value: cond.serialNumber,
+                            text: cond.desc,
+                        });
+                    }
+
                     return null;
                 });
+                condOptions['time'] = condOptions['time'].sort((a, b) => a.key - b.key);
                 this.setState({
                     condTypeOptions : condTypeOptions,
                     condOptions     : condOptions,
@@ -92,6 +107,8 @@ export default class AddScene extends React.Component {
             });
     };
 
+    compare
+
     get opOptions() {
         return [
             {key: 'turn on', value: 'turn on', text: 'turn on' },
@@ -106,7 +123,7 @@ export default class AddScene extends React.Component {
                     <Message
                         success
                         header='Success'
-                        content="You've successfully added a scene. Scene list will be refreshed in 3 seconds."
+                        content="Successfully added a scene. Web will be refreshed in 2 seconds."
                     />
                 );
             case 'error':
@@ -128,15 +145,6 @@ export default class AddScene extends React.Component {
                 <Header as='h1'>Add Scene</Header>
                 {this.message}
                 <Form>
-                    <Form.Field required>
-                        <label>Serial Number</label>
-                        <Form.Input
-                            placeholder='Serial Number'
-                            name='serialNumber'
-                            value={this.state.serialNumber}
-                            onChange={this.handleChange}
-                            error={this.state.serialNumberError}/>
-                    </Form.Field>
                     <Form.Field required>
                         <label>Scene Name</label>
                         <Form.Input
@@ -221,14 +229,9 @@ export default class AddScene extends React.Component {
     };
 
     handleSubmit = () => {
-        const {serialNumber, sceneName, condType, cond, device, operation, isUsing} = this.state;
+        const {sceneName, condType, cond, device, operation, isUsing} = this.state;
         let hasError = false;
-        if (!serialNumber) {
-            hasError = true;
-            this.setState({serialNumberError: 'Please Input Serial Number'})
-        } else {
-            this.setState({serialNumberError: null})
-        }
+
         if (!sceneName) {
             hasError = true;
             this.setState({sceneNameError: 'Please Input Scene Name'})
@@ -262,7 +265,7 @@ export default class AddScene extends React.Component {
         if (!hasError) {
             let condDesc = this.state.conds[cond].desc;
             const scene  = {
-                serialNumber, sceneName, condType, cond, condDesc, device, operation, isUsing
+                sceneName, condType, cond, condDesc, device, operation, isUsing
             };
             const handleSuccess = this.props.onSuccess;
             console.log(scene);
@@ -277,7 +280,7 @@ export default class AddScene extends React.Component {
                         setTimeout(() => {
                             this.setState({message: null});
                             handleSuccess();
-                        }, 3000);
+                        }, 2000);
                     }
                 });
         }

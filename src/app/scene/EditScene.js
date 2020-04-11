@@ -53,11 +53,25 @@ export default class EditScene extends React.Component {
                         });
                         condOptions[cond.type] = [];
                     }
-                    condOptions[cond.type].push({
-                        key: cond.serialNumber,
-                        value: cond.serialNumber,
-                        text: cond.desc,
-                    });
+                    if (cond.type === 'time'){
+                        condOptions[cond.type].push({
+                            key: cond.hour * 100 + cond.minute,
+                            value: cond.serialNumber,
+                            text: cond.desc,
+                        });
+                    } else if (cond.type === 'brightness'){
+                        condOptions[cond.type].push({
+                            key: cond.brightness,
+                            value: cond.serialNumber,
+                            text: cond.desc,
+                        });
+                    } else if (cond.type === 'temperature'){
+                        condOptions[cond.type].push({
+                            key: cond.temperature,
+                            value: cond.serialNumber,
+                            text: cond.desc,
+                        });
+                    }
                     return null;
                 });
                 this.setState({
@@ -103,7 +117,7 @@ export default class EditScene extends React.Component {
                     <Message
                         success
                         header='Success'
-                        content="You've successfully update scene info. Device list will be refreshed in 3 seconds."
+                        content="Successfully update scene info. Web will be refreshed in 2 seconds."
                     />
                 );
             case 'error':
@@ -273,7 +287,7 @@ export default class EditScene extends React.Component {
                         setTimeout(() => {
                             this.setState({message: null});
                             handleSuccess();
-                        }, 3000);
+                        }, 2000);
                     }
                 });
         }

@@ -1,48 +1,298 @@
 [
     {
-        "serialNumber": "SN-636f6e64-001",
+        "serialNumber": "SN-636f6e64-00000",
         "condName": "Time Trigger",
         "type": "time",
-        "desc": "Time is 08:00:00",
+        "desc": "Time is 00:00",
+        "hour": 0,
+        "minute": 0
+    },
+    {
+        "serialNumber": "SN-636f6e64-00030",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 00:30",
+        "hour": 0,
+        "minute": 30
+    },
+    {
+        "serialNumber": "SN-636f6e64-00100",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 01:00",
+        "hour": 1,
+        "minute": 0
+    },
+    {
+        "serialNumber": "SN-636f6e64-00130",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 01:30",
+        "hour": 1,
+        "minute": 30
+    },
+    {
+        "serialNumber": "SN-636f6e64-00200",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 02:00",
+        "hour": 2,
+        "minute": 0
+    },
+    {
+        "serialNumber": "SN-636f6e64-00230",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 02:30",
+        "hour": 2,
+        "minute": 30
+    },
+    {
+        "serialNumber": "SN-636f6e64-00300",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 03:00",
+        "hour": 3,
+        "minute": 0
+    },
+    {
+        "serialNumber": "SN-636f6e64-00330",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 03:30",
+        "hour": 3,
+        "minute": 30
+    },
+    {
+        "serialNumber": "SN-636f6e64-00400",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 04:00",
+        "hour": 4,
+        "minute": 0
+    },
+    {
+        "serialNumber": "SN-636f6e64-00430",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 04:30",
+        "hour": 4,
+        "minute": 30
+    },
+    {
+        "serialNumber": "SN-636f6e64-00500",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 05:00",
+        "hour": 5,
+        "minute": 0
+    },
+    {
+        "serialNumber": "SN-636f6e64-00530",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 05:30",
+        "hour": 5,
+        "minute": 30
+    },
+    {
+        "serialNumber": "SN-636f6e64-00600",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 06:00",
+        "hour": 6,
+        "minute": 0
+    },
+    {
+        "serialNumber": "SN-636f6e64-00700",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 07:00",
+        "hour": 7,
+        "minute": 0
+    },
+    {
+        "serialNumber": "SN-636f6e64-00800",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 08:00",
         "hour": 8,
-        "minute": 0,
-        "second": 0
+        "minute": 0
     },
     {
-        "serialNumber": "SN-636f6e64-002",
+        "serialNumber": "SN-636f6e64-00900",
         "condName": "Time Trigger",
         "type": "time",
-        "desc": "Time is 20:00:00",
-        "hour": 20,
-        "minute": 0,
-        "second": 0
+        "desc": "Time is 09:00",
+        "hour": 9,
+        "minute": 0
     },
     {
-        "serialNumber": "SN-636f6e64-101",
+        "serialNumber": "SN-636f6e64-01000",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 10:00",
+        "hour": 10,
+        "minute": 0
+    },
+    {
+        "serialNumber": "SN-636f6e64-01100",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 11:00",
+        "hour": 11,
+        "minute": 0
+    },
+    {
+        "serialNumber": "SN-636f6e64-01200",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 12:00",
+        "hour": 12,
+        "minute": 0
+    },
+    {
+        "serialNumber": "SN-636f6e64-01300",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 13:00",
+        "hour": 13,
+        "minute": 0
+    },
+    {
+        "serialNumber": "SN-636f6e64-01400",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 14:00",
+        "hour": 14,
+        "minute": 0
+    },
+    {
+        "serialNumber": "SN-636f6e64-01500",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 15:00",
+        "hour": 15,
+        "minute": 0
+    },
+    {
+        "serialNumber": "SN-636f6e64-01600",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 16:00",
+        "hour": 16,
+        "minute": 0
+    },
+    {
+        "serialNumber": "SN-636f6e64-01700",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 017:00",
+        "hour": 17,
+        "minute": 0
+    },
+    {
+        "serialNumber": "SN-636f6e64-01800",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 18:00",
+        "hour": 18,
+        "minute": 0
+    },
+    {
+        "serialNumber": "SN-636f6e64-01900",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 19:00",
+        "hour": 19,
+        "minute": 0
+    },
+    {
+        "serialNumber": "SN-636f6e64-02000",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 20:00",
+        "hour": 20,
+        "minute": 0
+    },
+    {
+        "serialNumber": "SN-636f6e64-02100",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 21:00",
+        "hour": 21,
+        "minute": 0
+    },
+    {
+        "serialNumber": "SN-636f6e64-02200",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 22:00",
+        "hour": 22,
+        "minute": 0
+    },
+    {
+        "serialNumber": "SN-636f6e64-02300",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 23:00",
+        "hour": 23,
+        "minute": 0
+    },
+    {
+        "serialNumber": "SN-636f6e64-02330",
+        "condName": "Time Trigger",
+        "type": "time",
+        "desc": "Time is 23:30",
+        "hour": 23,
+        "minute": 30
+    },
+
+
+
+
+
+
+
+
+
+
+    {
+        "serialNumber": "SN-636f6e64-1010",
         "condName": "Light Sensor Trigger",
         "type": "brightness",
-        "desc": "Brightness is less than 10",
+        "desc": "Brightness is about 10",
         "brightness": 10
     },
     {
-        "serialNumber": "SN-636f6e64-102",
+        "serialNumber": "SN-636f6e64-1080",
         "condName": "Light Sensor Trigger",
         "type": "brightness",
-        "desc": "Brightness is more than 80",
+        "desc": "Brightness is about 80",
         "brightness": 80
     },
+
+
+
+
+
+
+
+
+
+
     {
-        "serialNumber": "SN-636f6e64-201",
+        "serialNumber": "SN-636f6e64-205",
         "condName": "Thermal Sensor Trigger",
         "type": "temperature",
-        "desc": "Temperature is less than 5 Centigrade",
+        "desc": "Temperature is about 5 Centigrade",
         "temperature": 5
     },
     {
-        "serialNumber": "SN-636f6e64-202",
+        "serialNumber": "SN-636f6e64-230",
         "condName": "Thermal Sensor Trigger",
         "type": "temperature",
-        "desc": "Temperature is more than 30 Centigrade",
+        "desc": "Temperature is about 30 Centigrade",
         "temperature": 30
     }
 ]

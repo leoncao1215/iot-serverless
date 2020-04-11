@@ -35,6 +35,8 @@ export default class Scene extends React.Component {
             request.get('/querySceneList')
                 .then(res => {
                     if (res.scenes) {
+                        res.scenes.forEach(scene => scene.SN = scene.serialNumber.slice(-3));
+                        res.scenes.sort((a, b) => a.SN - b.SN)
                         this.setState({
                             scenes: res.scenes
                         })
@@ -120,7 +122,7 @@ export default class Scene extends React.Component {
 
                         <Table.Footer>
                             <Table.Row>
-                                <Table.HeaderCell colSpan='6'>
+                                <Table.HeaderCell colSpan='7'>
                                     <Menu floated='right' pagination>
                                         <Menu.Item as='a' icon>
                                             <Icon name='chevron left'/>

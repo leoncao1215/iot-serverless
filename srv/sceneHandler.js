@@ -81,7 +81,7 @@ module.exports.addScene = (event, context, callback) => {
 };
 
 /**
- * 通过 SN 查询场景
+ * 通过 SerialNumber 查询场景
  *
  * @param event
  * @param context

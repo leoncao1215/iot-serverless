@@ -128,7 +128,7 @@ export default class History extends React.Component {
                 this.setState({
                     curDevice:""
                 })
-                this.handleFilter()
+                this.handleDeviceFilter()
             })
     }
 
